@@ -28,6 +28,10 @@ app.post('/login', validator('json', loginRequestSchema), c => {
 app.post('/sign-up', validator('json', signUpRequestSchema), async c => {
   const { JWT_SECRET } = env<{ JWT_SECRET: string }>(c, 'node');
 
+  if (!JWT_SECRET) {
+    return c.json(ApiResponse.failed('Server misconfiguration'), 500);
+  }
+
   const validated = c.req.valid('json');
 
   const existingUser = await UserModel.findOne({ email: validated.email });
@@ -61,17 +65,21 @@ app.notFound(c => {
 });
 
 const bootstrap = async () => {
-  await connectMongoDB();
-
-  serve(
-    {
-      fetch: app.fetch,
-      port: 5000
-    },
-    info => {
-      console.warn(`Server is running on http://localhost:${info.port}`);
-    }
-  );
+  try {
+    await connectMongoDB();
+    serve(
+      {
+        fetch: app.fetch,
+        port: 5000
+      },
+      info => {
+        console.warn(`Server is running on http://localhost:${info.port}`);
+      }
+    );
+  } catch (error) {
+    console.error('Failed to bootstrap server', error);
+    process.exit(1);
+  }
 };
 
 void bootstrap();
