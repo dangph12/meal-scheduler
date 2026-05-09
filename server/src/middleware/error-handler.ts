@@ -13,7 +13,7 @@ export const errorHandler: ErrorHandler = (err, c) => {
       );
     }
 
-    return err.getResponse();
+    return c.json(ApiResponse.failed(message, err.cause), err.status);
   }
 
   const message =

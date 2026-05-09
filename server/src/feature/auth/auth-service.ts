@@ -1,4 +1,3 @@
-import { ApiResponse } from '@app/shared/api-response';
 import type { LoginRequest, SignUpRequest } from '@app/shared/dto/auth';
 import { HTTPException } from 'hono/http-exception';
 import { sign } from 'hono/jwt';
@@ -11,10 +10,7 @@ export class AuthService {
     const user = await UserModel.findOne({ email: data.email });
 
     if (!user) {
-      throw new HTTPException(
-        400,
-        ApiResponse.failed('Invalid email or password')
-      );
+      throw new HTTPException(400, { message: 'Invalid email or password' });
     }
 
     const isPasswordValid = await PasswordUtils.verify(
@@ -23,10 +19,7 @@ export class AuthService {
     );
 
     if (!isPasswordValid) {
-      throw new HTTPException(
-        400,
-        ApiResponse.failed('Invalid email or password')
-      );
+      throw new HTTPException(400, { message: 'Invalid email or password' });
     }
     const expiredInMinutes = 15;
 
@@ -45,7 +38,7 @@ export class AuthService {
     const existingUser = await UserModel.findOne({ email: data.email });
 
     if (existingUser) {
-      throw new HTTPException(400, ApiResponse.failed('Email already exists'));
+      throw new HTTPException(400, { message: 'Email already exists' });
     }
 
     const hashedPassword = await PasswordUtils.hash(data.password);
