@@ -11,8 +11,6 @@ import { errorHandler } from './error-handler';
 import { PasswordUtils } from './password';
 import { validator } from './validate';
 
-connectMongoDB();
-
 const app = new Hono();
 
 app.onError(errorHandler);
@@ -30,9 +28,13 @@ app.post('/login', validator('json', loginRequestSchema), c => {
 app.post('/sign-up', validator('json', signUpRequestSchema), async c => {
   const { JWT_SECRET } = env<{ JWT_SECRET: string }>(c, 'node');
 
-  console.log('JWT_SECRET:', process.env.JWT_SECRET);
-
   const validated = c.req.valid('json');
+
+  const existingUser = await UserModel.findOne({ email: validated.email });
+
+  if (existingUser) {
+    return c.json(ApiResponse.failed('Email already exists'), 400);
+  }
 
   const hashedPassword = await PasswordUtils.hash(validated.password);
 
@@ -58,12 +60,18 @@ app.notFound(c => {
   return c.json(ApiResponse.failed('Not Found'), 404);
 });
 
-serve(
-  {
-    fetch: app.fetch,
-    port: 5000
-  },
-  info => {
-    console.warn(`Server is running on http://localhost:${info.port}`);
-  }
-);
+const bootstrap = async () => {
+  await connectMongoDB();
+
+  serve(
+    {
+      fetch: app.fetch,
+      port: 5000
+    },
+    info => {
+      console.warn(`Server is running on http://localhost:${info.port}`);
+    }
+  );
+};
+
+void bootstrap();
