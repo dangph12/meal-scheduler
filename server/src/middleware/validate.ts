@@ -1,6 +1,6 @@
-import { ApiResponse } from '@app/shared/api-response';
 import { zValidator } from '@hono/zod-validator';
 import type { ValidationTargets } from 'hono';
+import { HTTPException } from 'hono/http-exception';
 import { z } from 'zod';
 import { fromZodError } from 'zod-validation-error';
 
@@ -18,6 +18,6 @@ export const validator = <
         issueSeparator: '\n'
       });
 
-      return c.json(ApiResponse.failed(readableError.message), 400);
+      throw new HTTPException(400, { message: readableError.message });
     }
   });
