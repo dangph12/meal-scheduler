@@ -1,6 +1,6 @@
 {
   "name": "@app/shared",
-  "type": "module",
+  "type": "commonjs",
   "files": [
     "dist"
   ],
