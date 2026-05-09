@@ -1,12 +1,11 @@
-export interface ApiResponseType<T = unknown, E = unknown> {
+export interface ApiResponseType<T = unknown> {
   status: 'success' | 'failed' | 'error';
   message: string;
   data?: T;
-  errors?: E;
 }
 
 export const ApiResponse = {
-  success<T>(message: string, data?: T): ApiResponseType<T, undefined> {
+  success<T>(message: string, data?: T): ApiResponseType<T> {
     return {
       status: 'success',
       message,
@@ -14,11 +13,10 @@ export const ApiResponse = {
     };
   },
 
-  failed<E>(message: string, errors?: E): ApiResponseType<undefined, E> {
+  failed(message: string): ApiResponseType<undefined> {
     return {
       status: 'failed',
-      message,
-      errors
+      message
     };
   },
 
