@@ -2,7 +2,7 @@
   "name": "server",
   "type": "commonjs",
   "scripts": {
-    "dev": "tsx watch src/index.ts",
+    "dev": "tsx --env-file=.env --watch src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js"
   },
@@ -11,6 +11,8 @@
     "@hono/node-server": "^1.19.14",
     "@hono/zod-validator": "^0.7.6",
     "hono": "^4.12.18",
+    "mongoose": "^9.6.2",
+    "mongoose-paginate-v2": "^1.9.4",
     "zod": "^4.4.3",
     "zod-validation-error": "^5.0.0"
   },
