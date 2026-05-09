@@ -4,7 +4,6 @@ import { HTTPException } from 'hono/http-exception';
 
 export const errorHandler: ErrorHandler = (err, c) => {
   if (err instanceof HTTPException) {
-    const status = err.status;
     const message = err.message || 'Client Error';
 
     if (message === 'Refresh token expired') {
@@ -14,7 +13,7 @@ export const errorHandler: ErrorHandler = (err, c) => {
       );
     }
 
-    return c.json(ApiResponse.failed(message), status);
+    return err.getResponse();
   }
 
   const message =
