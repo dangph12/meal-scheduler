@@ -15,7 +15,7 @@ export class AuthController {
 
     const accessToken = await AuthService.login(data, JWT_SECRET);
 
-    return c.json(ApiResponse.success(accessToken));
+    return c.json(ApiResponse.success('Login successfully', { accessToken }));
   }
 
   static async signUp(c: Context, data: SignUpRequest) {
@@ -26,6 +26,6 @@ export class AuthController {
     }
 
     const accessToken = await AuthService.signUp(data, JWT_SECRET);
-    return c.json(ApiResponse.success(accessToken));
+    return c.json(ApiResponse.success('Sign up successfully', { accessToken }));
   }
 }
