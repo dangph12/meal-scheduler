@@ -1,0 +1,19 @@
+{
+  "name": "@app/shared",
+  "type": "commonjs",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "default": "./dist/*.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "zod": "^4.4.3"
+  }
+}
