@@ -35,18 +35,20 @@ export class AuthService {
   }
 
   static async signUp(data: SignUpRequest, jwtSecret: string) {
-    const existingUser = await UserModel.findOne({ email: data.email });
-
-    if (existingUser) {
-      throw new HTTPException(400, { message: 'Email already exists' });
-    }
-
     const hashedPassword = await PasswordUtils.hash(data.password);
 
-    const user = await UserModel.create({
-      ...data,
-      password: hashedPassword
-    });
+    let user;
+    try {
+      user = await UserModel.create({
+        ...data,
+        password: hashedPassword
+      });
+    } catch (err: unknown) {
+      if (err instanceof Error && 'code' in err && err.code === 11000) {
+        throw new HTTPException(409, { message: 'Email already exists' });
+      }
+      throw err;
+    }
 
     const expiredInMinutes = 15;
 
