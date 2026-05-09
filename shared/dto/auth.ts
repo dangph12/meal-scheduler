@@ -20,6 +20,7 @@ export interface LoginResponse {
 export const signUpRequestSchema = z.object({
   name: z
     .string('Name is required')
+    .trim()
     .min(2, 'Name must be at least 2 characters long')
     .normalize(),
   email: z.email('Invalid email address'),

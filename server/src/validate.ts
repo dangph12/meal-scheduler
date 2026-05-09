@@ -15,7 +15,7 @@ export const validator = <
     if (!result.success) {
       const readableError = fromZodError(result.error, {
         prefix: null,
-        issueSeparator: '\\n'
+        issueSeparator: '\n'
       });
 
       return c.json(ApiResponse.failed(readableError.message), 400);
