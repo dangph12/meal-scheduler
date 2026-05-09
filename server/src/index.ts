@@ -1,10 +1,17 @@
 import { ApiResponse } from '@app/shared/api-response';
-import { loginRequestSchema } from '@app/shared/dto/auth';
+import { loginRequestSchema, signUpRequestSchema } from '@app/shared/dto/auth';
 import { serve } from '@hono/node-server';
 import { Hono } from 'hono';
+import { env } from 'hono/adapter';
+import { sign } from 'hono/jwt';
 
+import { UserModel } from './database/models/user-model';
+import { connectMongoDB } from './database/mongo';
 import { errorHandler } from './error-handler';
+import { PasswordUtils } from './password';
 import { validator } from './validate';
+
+connectMongoDB();
 
 const app = new Hono();
 
@@ -18,6 +25,33 @@ app.post('/login', validator('json', loginRequestSchema), c => {
   const validated = c.req.valid('json');
   // validated is automatically typed as LoginRequest
   return c.json({ token: '...' });
+});
+
+app.post('/sign-up', validator('json', signUpRequestSchema), async c => {
+  const { JWT_SECRET } = env<{ JWT_SECRET: string }>(c, 'node');
+
+  console.log('JWT_SECRET:', process.env.JWT_SECRET);
+
+  const validated = c.req.valid('json');
+
+  const hashedPassword = await PasswordUtils.hash(validated.password);
+
+  const user = await UserModel.create({
+    ...validated,
+    password: hashedPassword
+  });
+
+  const expiredInMinutes = 15;
+
+  const accessToken = await sign(
+    {
+      sub: user._id.toString(),
+      exp: Math.floor(Date.now() / 1000) + expiredInMinutes * 60
+    },
+    JWT_SECRET
+  );
+
+  return c.json(ApiResponse.success(accessToken));
 });
 
 app.notFound(c => {
