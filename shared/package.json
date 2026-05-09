@@ -1,0 +1,13 @@
+{
+  "name": "@app/shared",
+  "type": "module",
+  "exports": {
+    "./*": {
+      "types": "./*.ts",
+      "default": "./*.ts"
+    }
+  },
+  "dependencies": {
+    "zod": "^4.4.3"
+  }
+}
