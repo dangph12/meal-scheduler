@@ -1,12 +1,13 @@
 {
   "name": "@app/shared",
-  "type": "commonjs",
   "files": [
     "dist"
   ],
   "exports": {
     "./*": {
       "types": "./dist/*.d.ts",
+      "import": "./*.ts",
+      "require": "./dist/*.js",
       "default": "./dist/*.js"
     }
   },

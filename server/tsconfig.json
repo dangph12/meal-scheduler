@@ -6,7 +6,7 @@
     "skipLibCheck": true,
     "types": ["node"],
     "composite": true,
-    "rootDir": "./src",
+    "rootDir": "..",
     "outDir": "./dist",
     "paths": {
       "@/*": ["./src/*"],
@@ -15,7 +15,6 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"],
-  "references": [{ "path": "../shared" }]
+  "include": ["src/**/*", "../shared/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
 }
