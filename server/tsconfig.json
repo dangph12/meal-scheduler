@@ -1,21 +1,19 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "module": "CommonJS",
+    "module": "Node16",
+    "moduleResolution": "Node16",
     "strict": true,
     "skipLibCheck": true,
     "types": ["node"],
-    "composite": true,
     "rootDir": "./src",
     "outDir": "./dist",
     "paths": {
-      "@/*": ["./src/*"],
-      "@app/shared/*": ["../shared/*"]
+      "@/*": ["./src/*"]
     },
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"],
-  "references": [{ "path": "../shared" }]
+  "exclude": ["node_modules", "dist"]
 }

@@ -1,78 +1,113 @@
 'use client';
+import type { ApiResponseType } from '@app/shared/api-response';
+import {
+  type LoginRequest,
+  loginRequestSchema,
+  type LoginResponse
+} from '@app/shared/dto/auth';
+import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
 import { useRouter } from 'next/navigation';
-import { SubmitEvent } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
 import {
   Field,
-  FieldDescription,
+  FieldError,
   FieldGroup,
   FieldLabel,
   FieldSet
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { useAuthContext } from '@/context/auth';
+import { api } from '@/lib/api';
 
 export default function Page() {
   const router = useRouter();
-
   const { setAccessToken } = useAuthContext();
 
-  async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
-    event.preventDefault();
+  const {
+    control,
+    handleSubmit,
+    setError,
+    formState: { errors, isSubmitting }
+  } = useForm<LoginRequest>({
+    resolver: standardSchemaResolver(loginRequestSchema),
+    defaultValues: {
+      email: '',
+      password: ''
+    }
+  });
 
-    const formData = new FormData(event.currentTarget);
-    const email = formData.get('email');
-    const password = formData.get('password');
+  async function onSubmit(data: LoginRequest) {
+    try {
+      const res = await api.post<ApiResponseType<LoginResponse>>(
+        '/v1/auth/login',
+        data
+      );
 
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/v1/auth/login`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+      if (!res.data?.accessToken) {
+        setError('root', { message: 'Invalid response from server.' });
+        return;
       }
-    );
 
-    if (response.ok) {
-      const data = await response.json();
-      setAccessToken(data.data.accessToken);
+      setAccessToken(res.data!.accessToken);
       router.push('/');
-    } else {
-      console.error('Login failed');
+    } catch (error) {
+      setError('root', { message: 'Login failed. Check your credentials.' });
     }
   }
 
   return (
     <form
-      onSubmit={handleSubmit}
+      onSubmit={handleSubmit(onSubmit)}
       className='flex flex-col items-center justify-center gap-4'
     >
       <FieldSet className='w-full max-w-xs'>
         <FieldGroup>
-          <Field>
-            <FieldLabel htmlFor='email'>Email</FieldLabel>
-            <Input
-              id='email'
-              name='email'
-              type='email'
-              placeholder='alice@mail.com'
-              autoComplete='email'
-            />
-          </Field>
-          <Field>
-            <FieldLabel htmlFor='password'>Password</FieldLabel>
-            <Input
-              id='password'
-              name='password'
-              type='password'
-              placeholder='********'
-              autoComplete='current-password'
-            />
-          </Field>
+          <Controller
+            name='email'
+            control={control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor='email'>Email</FieldLabel>
+                <Input
+                  {...field}
+                  id='email'
+                  type='email'
+                  placeholder='alice@mail.com'
+                  aria-invalid={fieldState.invalid}
+                />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
+          <Controller
+            name='password'
+            control={control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor='password'>Password</FieldLabel>
+                <Input
+                  {...field}
+                  id='password'
+                  type='password'
+                  placeholder='••••••••'
+                  aria-invalid={fieldState.invalid}
+                />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
         </FieldGroup>
+        {errors.root && <FieldError errors={[errors.root]} />}
+        <Button type='submit' disabled={isSubmitting}>
+          {isSubmitting ? 'Logging in…' : 'Login'}
+        </Button>
       </FieldSet>
-      <Button type='submit'>Login</Button>
     </form>
   );
 }

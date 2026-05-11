@@ -6,13 +6,11 @@
     "declarationMap": true,
     "composite": true,
     "outDir": "./dist",
-    "rootDir": "./",
+    "rootDir": "./src",
     "strict": true,
     "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "lib": ["ES2020"]
+    "skipLibCheck": true
   },
-  "include": ["**/*.ts"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
 }

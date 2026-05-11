@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Inter } from 'next/font/google';
 
 import { AuthProvider } from '@/context/auth';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/shadcn';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
