@@ -1,12 +1,22 @@
 import { ApiResponse } from '@app/shared/api-response';
 import { serve } from '@hono/node-server';
 import { Hono } from 'hono';
+import { cors } from 'hono/cors';
 
 import { connectMongoDB } from '@/database/mongo';
 import { errorHandler } from '@/middleware/error-handler';
 import v1Router from '@/routes/v1/router';
 
 const app = new Hono();
+
+const webOrigin = process.env.WEB_ORIGIN ?? 'http://localhost:3000';
+
+app.use(
+  cors({
+    origin: webOrigin,
+    credentials: true
+  })
+);
 
 app.onError(errorHandler);
 

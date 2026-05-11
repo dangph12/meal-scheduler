@@ -26,6 +26,7 @@ export class AuthService {
     const accessToken = await sign(
       {
         sub: user._id.toString(),
+        name: user.name,
         exp: Math.floor(Date.now() / 1000) + expiredInMinutes * 60
       },
       jwtSecret

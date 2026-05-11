@@ -17,8 +17,20 @@ export class PasswordUtils {
     return `${salt}.${derivedKey.toString('hex')}`;
   }
 
-  static async verify(password: string, storedHash: string): Promise<boolean> {
-    const [salt, hash] = storedHash.split('.');
+  static async verify(
+    password: string,
+    storedHashPassword: string
+  ): Promise<boolean> {
+    if (!storedHashPassword) {
+      return false;
+    }
+
+    const [salt, hash] = storedHashPassword.split('.');
+
+    if (!salt || !hash) {
+      return false;
+    }
+
     const hashBuffer = Buffer.from(hash, 'hex');
 
     const derivedKey = (await scryptAsync(
