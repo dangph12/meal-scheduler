@@ -31,7 +31,7 @@ async function request<T = unknown>(
   method: HttpMethod,
   path: string,
   options: ApiOptions = {}
-): Promise<T> {
+): Promise<T | undefined> {
   const { body, params, headers: customHeaders, ...rest } = options;
 
   const url = new URL(`${BASE_URL}${path}`);

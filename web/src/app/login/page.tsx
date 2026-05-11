@@ -44,6 +44,12 @@ export default function Page() {
         '/v1/auth/login',
         data
       );
+
+      if (!res.data?.accessToken) {
+        setError('root', { message: 'Invalid response from server.' });
+        return;
+      }
+
       setAccessToken(res.data!.accessToken);
       router.push('/');
     } catch (error) {

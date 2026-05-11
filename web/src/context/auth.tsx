@@ -25,8 +25,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [name, setName] = useState<string | null>(null);
 
   useEffect(() => {
+    setApiToken(accessToken);
     if (accessToken) {
-      setApiToken(accessToken);
       try {
         const payload = JSON.parse(atob(accessToken.split('.')[1]));
         setName(payload.name);
@@ -34,6 +34,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         setAccessToken(null);
         setName(null);
       }
+    } else {
+      setName(null);
     }
   }, [accessToken, setAccessToken]);
 
