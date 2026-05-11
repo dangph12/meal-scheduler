@@ -75,7 +75,7 @@ export default function Page() {
                 <Input
                   {...field}
                   id='email'
-                  type='email'
+                  type='text'
                   placeholder='alice@mail.com'
                   aria-invalid={fieldState.invalid}
                 />
