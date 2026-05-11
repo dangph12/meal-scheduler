@@ -10,7 +10,8 @@
     "outDir": "./dist",
     "paths": {
       "@/*": ["./src/*"],
-      "@app/shared/*": ["../shared/src/*"]
+      "@app/shared": ["../shared/dist/index.js"],
+      "@app/shared/*": ["../shared/dist/*"]
     },
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true
