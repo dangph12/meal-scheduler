@@ -5,16 +5,14 @@
     "strict": true,
     "skipLibCheck": true,
     "types": ["node"],
-    "composite": true,
-    "rootDir": "..",
+    "rootDir": "./src",
     "outDir": "./dist",
     "paths": {
-      "@/*": ["./src/*"],
-      "@app/shared/*": ["../shared/*"]
+      "@/*": ["./src/*"]
     },
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true
   },
-  "include": ["src/**/*", "../shared/**/*.ts"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
 }

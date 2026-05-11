@@ -1,14 +1,12 @@
 {
   "name": "@app/shared",
-  "files": [
-    "dist"
-  ],
+  "version": "1.0.0",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     "./*": {
-      "types": "./dist/*.d.ts",
-      "import": "./*.ts",
       "require": "./dist/*.js",
-      "default": "./dist/*.js"
+      "types": "./dist/*.d.ts"
     }
   },
   "scripts": {
