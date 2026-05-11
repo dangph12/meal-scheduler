@@ -2,6 +2,8 @@
 
 import { createContext, useContext, useEffect, useState } from 'react';
 
+import { setApiToken } from '@/lib/api';
+
 interface AuthContextType {
   accessToken: string | null;
   setAccessToken: (token: string | null) => void;
@@ -24,6 +26,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     if (accessToken) {
+      setApiToken(accessToken);
       try {
         const payload = JSON.parse(atob(accessToken.split('.')[1]));
         setName(payload.name);

@@ -3,15 +3,10 @@ import { useRouter } from 'next/navigation';
 import { SubmitEvent } from 'react';
 
 import { Button } from '@/components/ui/button';
-import {
-  Field,
-  FieldDescription,
-  FieldGroup,
-  FieldLabel,
-  FieldSet
-} from '@/components/ui/field';
+import { Field, FieldGroup, FieldLabel, FieldSet } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { useAuthContext } from '@/context/auth';
+import { api } from '@/lib/api';
 
 export default function Page() {
   const router = useRouter();
@@ -25,21 +20,15 @@ export default function Page() {
     const email = formData.get('email');
     const password = formData.get('password');
 
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/v1/auth/login`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-      }
-    );
-
-    if (response.ok) {
-      const data = await response.json();
+    try {
+      const data = await api.post<{ data: { accessToken: string } }>(
+        '/v1/auth/login',
+        { email, password }
+      );
       setAccessToken(data.data.accessToken);
       router.push('/');
-    } else {
-      console.error('Login failed');
+    } catch (error) {
+      console.error('Login failed', error);
     }
   }
 
