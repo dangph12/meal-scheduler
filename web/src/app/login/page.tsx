@@ -53,6 +53,7 @@ export default function Page() {
           <Field>
             <FieldLabel htmlFor='email'>Email</FieldLabel>
             <Input
+              id='email'
               name='email'
               type='email'
               placeholder='alice@mail.com'
@@ -62,6 +63,7 @@ export default function Page() {
           <Field>
             <FieldLabel htmlFor='password'>Password</FieldLabel>
             <Input
+              id='password'
               name='password'
               type='password'
               placeholder='********'

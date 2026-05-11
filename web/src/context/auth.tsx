@@ -24,12 +24,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     if (accessToken) {
-      const payload = JSON.parse(atob(accessToken.split('.')[1]));
-      setName(payload.name);
-    } else {
-      setName(null);
+      try {
+        const payload = JSON.parse(atob(accessToken.split('.')[1]));
+        setName(payload.name);
+      } catch (error) {
+        setAccessToken(null);
+        setName(null);
+      }
     }
-  }, [accessToken]);
+  }, [accessToken, setAccessToken]);
 
   return (
     <AuthContext.Provider

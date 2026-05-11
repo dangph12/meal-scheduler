@@ -9,9 +9,11 @@ import v1Router from '@/routes/v1/router';
 
 const app = new Hono();
 
+const webOrigin = process.env.WEB_ORIGIN ?? 'http://localhost:3000';
+
 app.use(
   cors({
-    origin: 'http://localhost:3000',
+    origin: webOrigin,
     credentials: true
   })
 );
