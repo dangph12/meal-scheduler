@@ -3,16 +3,6 @@
   "version": "1.0.0",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
-    },
-    "./*": {
-      "require": "./dist/*.js",
-      "types": "./dist/*.d.ts"
-    }
-  },
   "scripts": {
     "build": "tsc -p tsconfig.json"
   },

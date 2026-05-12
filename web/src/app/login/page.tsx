@@ -45,12 +45,14 @@ export default function Page() {
         data
       );
 
-      if (!res.data?.accessToken) {
+      if (!res || !res.data?.accessToken) {
         setError('root', { message: 'Invalid response from server.' });
         return;
       }
 
-      setAccessToken(res.data!.accessToken);
+      const accessToken = res.data.accessToken;
+
+      setAccessToken(accessToken);
       router.push('/');
     } catch (error) {
       setError('root', { message: 'Login failed. Check your credentials.' });
@@ -73,7 +75,7 @@ export default function Page() {
                 <Input
                   {...field}
                   id='email'
-                  type='email'
+                  type='text'
                   placeholder='alice@mail.com'
                   aria-invalid={fieldState.invalid}
                 />

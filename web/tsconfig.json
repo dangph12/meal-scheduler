@@ -20,7 +20,7 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@app/shared/*": ["../shared/*"]
+      "@app/shared/*": ["../shared/dist/*"]
     }
   },
   "include": [
