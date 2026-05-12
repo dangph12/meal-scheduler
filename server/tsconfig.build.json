@@ -1,4 +1,12 @@
 {
   "extends": "./tsconfig.json",
-  "exclude": ["node_modules", "dist", "../shared"]
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"],
+      "@app/shared": ["../shared/dist/index.js"],
+      "@app/shared/*": ["../shared/dist/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist"],
+  "references": [{ "path": "../shared" }]
 }
