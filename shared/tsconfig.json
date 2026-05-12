@@ -1,3 +1,4 @@
+// shared/tsconfig.json
 {
   "compilerOptions": {
     "target": "ESNext",
@@ -9,6 +10,7 @@
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": true,
+    "composite": true,
     "esModuleInterop": true
   },
   "include": ["src/**/*"],

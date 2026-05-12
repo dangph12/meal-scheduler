@@ -1,3 +1,4 @@
+// web/tsconfig.json
 {
   "compilerOptions": {
     "target": "ES2017",
@@ -13,14 +14,11 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
+    "plugins": [{ "name": "next" }],
     "paths": {
       "@/*": ["./src/*"],
-      "@app/shared/*": ["../shared/dist/*"]
+      "@app/shared": ["../shared/src/index.ts"],
+      "@app/shared/*": ["../shared/src/*"]
     }
   },
   "include": [
@@ -31,5 +29,6 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "references": [{ "path": "../shared" }]
 }
