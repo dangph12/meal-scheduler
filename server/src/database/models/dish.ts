@@ -1,6 +1,21 @@
 import mongoose, { InferSchemaType, Schema } from 'mongoose';
 import mongoosePaginate from 'mongoose-paginate-v2';
 
+const nutrientValueSchema = new Schema(
+  {
+    value: {
+      type: Number,
+      required: true,
+      min: 0
+    },
+    unit: {
+      type: String,
+      required: true
+    }
+  },
+  { _id: false }
+);
+
 const dishSchema = new Schema(
   {
     name: {
@@ -15,15 +30,9 @@ const dishSchema = new Schema(
       type: String
     },
     servingSize: {
-      value: {
-        type: Number,
-        required: true,
-        min: 0
-      },
-      unit: {
-        type: String,
-        required: true
-      }
+      type: Number,
+      required: true,
+      min: 1
     },
     cookingTimeMinute: {
       type: Number,
@@ -58,7 +67,18 @@ const dishSchema = new Schema(
           }
         ]
       }
-    ]
+    ],
+
+    // denormalized nutrient values for quick access, calculated from ingredients and their quantities
+    proximate: {
+      water: nutrientValueSchema,
+      energy: [nutrientValueSchema],
+      protein: nutrientValueSchema,
+      fat: nutrientValueSchema,
+      carbohydrate: nutrientValueSchema,
+      fiber: nutrientValueSchema,
+      ash: nutrientValueSchema
+    }
   },
   {
     timestamps: true

@@ -5,7 +5,8 @@ const nutrientValueSchema = new Schema(
   {
     value: {
       type: Number,
-      required: true
+      required: true,
+      min: 0
     },
     unit: {
       type: String,
@@ -69,6 +70,7 @@ const ingredientSchema = new Schema(
         pp: nutrientValueSchema,
         b5: nutrientValueSchema,
         b6: nutrientValueSchema,
+        folat: nutrientValueSchema,
         b9: nutrientValueSchema,
         h: nutrientValueSchema,
         b12: nutrientValueSchema
