@@ -69,6 +69,7 @@ const ingredientSchema = new Schema(
         pp: nutrientValueSchema,
         b5: nutrientValueSchema,
         b6: nutrientValueSchema,
+        folat: nutrientValueSchema,
         b9: nutrientValueSchema,
         h: nutrientValueSchema,
         b12: nutrientValueSchema
