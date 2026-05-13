@@ -15,15 +15,9 @@ const dishSchema = new Schema(
       type: String
     },
     servingSize: {
-      value: {
-        type: Number,
-        required: true,
-        min: 0
-      },
-      unit: {
-        type: String,
-        required: true
-      }
+      type: Number,
+      required: true,
+      min: 1
     },
     cookingTimeMinute: {
       type: Number,
