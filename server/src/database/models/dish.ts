@@ -5,7 +5,8 @@ const nutrientValueSchema = new Schema(
   {
     value: {
       type: Number,
-      required: true
+      required: true,
+      min: 0
     },
     unit: {
       type: String,
