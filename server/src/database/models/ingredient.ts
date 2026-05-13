@@ -1,16 +1,19 @@
 import mongoose, { InferSchemaType, Schema } from 'mongoose';
 import mongoosePaginate from 'mongoose-paginate-v2';
 
-const nutrientValueSchema = new Schema({
-  value: {
-    type: Number,
-    required: true
+const nutrientValueSchema = new Schema(
+  {
+    value: {
+      type: Number,
+      required: true
+    },
+    unit: {
+      type: String,
+      required: true
+    }
   },
-  unit: {
-    type: String,
-    required: true
-  }
-});
+  { _id: false }
+);
 
 const ingredientSchema = new Schema(
   {
@@ -21,7 +24,9 @@ const ingredientSchema = new Schema(
     refusePercentage: {
       type: Number,
       required: true,
-      default: 0
+      default: 0,
+      min: 0,
+      max: 100
     },
     imageUrl: {
       type: String
