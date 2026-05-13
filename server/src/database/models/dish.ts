@@ -37,14 +37,22 @@ const dishSchema = new Schema(
           ref: 'Ingredient',
           required: true
         },
-        quantity: [
+        // precise unit: g, kg (for nutrient calculation)
+        // human unit: cup, tablespoon, load, piece, etc. (user-friendly display)
+        quantities: [
           {
             value: {
               type: Number,
-              required: true
+              required: true,
+              min: 0
             },
             unit: {
               type: String,
+              required: true
+            },
+            unitType: {
+              type: String,
+              enum: ['precise', 'human'],
               required: true
             }
           }
