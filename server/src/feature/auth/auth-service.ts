@@ -2,7 +2,7 @@ import type { LoginRequest, SignUpRequest } from '@app/shared/dto/auth';
 import { HTTPException } from 'hono/http-exception';
 import { sign } from 'hono/jwt';
 
-import { UserModel } from '@/database/models/user-model';
+import { UserModel } from '@/database/models/user';
 import { PasswordUtils } from '@/util/password';
 
 export class AuthService {
