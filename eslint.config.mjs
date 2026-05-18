@@ -1,5 +1,4 @@
 import js from '@eslint/js';
-import nextPlugin from '@next/eslint-plugin-next';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
@@ -61,7 +60,6 @@ export default [
     files: ['web/**/*.{js,jsx,ts,tsx}'],
     plugins: {
       'simple-import-sort': simpleImportSort,
-      '@next/next': nextPlugin,
       'react-refresh': reactRefresh
     },
     languageOptions: {
@@ -74,8 +72,6 @@ export default [
       }
     },
     rules: {
-      ...nextPlugin.configs.recommended.rules,
-      ...nextPlugin.configs['core-web-vitals'].rules,
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-unused-vars': 'off',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
