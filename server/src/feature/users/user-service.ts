@@ -1,4 +1,4 @@
-import { Sex } from '@app/shared/constant';
+import { Sex } from '@app/shared/constant/sex';
 
 interface UserBodyMetrics {
   sex: Sex;
@@ -17,6 +17,10 @@ interface UserIntake {
 }
 
 const calculateTDEE = (user: UserBodyMetrics): number => {
+  if (user.weightKg <= 0 || user.heightCm <= 0) {
+    throw new Error('weightKg and heightCm must be positive');
+  }
+
   const age = Math.floor(
     (Date.now() - user.dob.getTime()) / (1000 * 60 * 60 * 24 * 365.25)
   );
@@ -33,6 +37,10 @@ const calculateTDEE = (user: UserBodyMetrics): number => {
 };
 
 const calculateTargetIntake = (user: UserIntake): number => {
+  if (user.weightKg <= 0) {
+    throw new Error('weightKg must be positive');
+  }
+
   // If target weight is within +-5% of current weight, consider weight stable
   const weightChangePercent =
     ((user.targetWeightKg - user.weightKg) / user.weightKg) * 100;
@@ -46,7 +54,7 @@ const calculateTargetIntake = (user: UserIntake): number => {
 
   // Note: rateOfChangeKgPerWeek should be an absolute positive number (e.g., 0.5)
   const dailyEnergyOffset =
-    (goalModifier * user.rateOfChangeKgPerWeek * 7700) / 7;
+    (goalModifier * Math.abs(user.rateOfChangeKgPerWeek) * 7700) / 7;
 
   const targetDailyIntake = user.tdee + dailyEnergyOffset;
 

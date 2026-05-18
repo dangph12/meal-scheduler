@@ -19,15 +19,32 @@ interface TdeeResult {
  */
 export function adjustTdee(logs: DailyLog[]): TdeeResult {
   const weightPoints = logs
-    .filter(log => log.weightKg !== null)
+    .filter(
+      log =>
+        log.weightKg !== null &&
+        Number.isFinite(log.weightKg) &&
+        log.weightKg > 0
+    )
     .map(log => [log.dayIndex, log.weightKg] as [number, number]);
 
   const intakePoints = logs
-    .filter(log => log.intakeKcal !== null)
+    .filter(
+      log =>
+        log.intakeKcal !== null &&
+        Number.isFinite(log.intakeKcal) &&
+        log.intakeKcal > 0
+    )
     .map(log => log.intakeKcal as number);
 
   if (weightPoints.length < 2 || intakePoints.length === 0) {
     throw new Error('Insufficient data to run the adaptive engine.');
+  }
+
+  const distinctDayIndexes = new Set(
+    weightPoints.map(([dayIndex]) => dayIndex)
+  );
+  if (distinctDayIndexes.size < 2) {
+    throw new Error('At least two distinct dayIndex values are required.');
   }
 
   const regressionResult = linearRegression(weightPoints);
@@ -36,7 +53,6 @@ export function adjustTdee(logs: DailyLog[]): TdeeResult {
 
   const biologicalOffset = weightSlopeKgPerDay * 7700;
   const trueTdee = Math.round(averageDailyIntake - biologicalOffset);
-
   return {
     trueTdee,
     weightChangeKgPerDay: Number(weightSlopeKgPerDay.toFixed(4)),
@@ -54,6 +70,10 @@ export function adjustIntake(
   targetWeightKg: number,
   rateOfChangeKgPerWeek: number
 ): number {
+  if (currentWeightKg <= 0) {
+    throw new Error('currentWeightKg must be positive');
+  }
+
   const weightChangePercent =
     ((targetWeightKg - currentWeightKg) / currentWeightKg) * 100;
 
