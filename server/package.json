@@ -13,6 +13,7 @@
     "hono": "^4.12.18",
     "mongoose": "^9.6.2",
     "mongoose-paginate-v2": "^1.9.4",
+    "simple-statistics": "^7.8.9",
     "zod": "^4.4.3",
     "zod-validation-error": "^5.0.0"
   },
