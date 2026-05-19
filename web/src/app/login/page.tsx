@@ -5,7 +5,7 @@ import {
   loginRequestSchema,
   type LoginResponse
 } from '@app/shared/dto/auth';
-import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { Controller, useForm } from 'react-hook-form';
 
@@ -31,7 +31,7 @@ export default function Page() {
     setError,
     formState: { errors, isSubmitting }
   } = useForm<LoginRequest>({
-    resolver: standardSchemaResolver(loginRequestSchema),
+    resolver: zodResolver(loginRequestSchema),
     defaultValues: {
       email: '',
       password: ''
