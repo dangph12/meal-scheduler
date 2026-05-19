@@ -186,12 +186,14 @@ function FieldError({
       return children;
     }
 
-    if (!errors?.length) {
+    const validErrors = errors?.filter(Boolean) || [];
+
+    if (!validErrors?.length) {
       return null;
     }
 
     const uniqueErrors = [
-      ...new Map(errors.map(error => [error?.message, error])).values()
+      ...new Map(validErrors.map(error => [error?.message, error])).values()
     ];
 
     if (uniqueErrors?.length == 1) {
