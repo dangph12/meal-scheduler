@@ -5,8 +5,8 @@ interface UserBodyMetrics {
   dob: Date;
   heightCm: number;
   weightKg: number;
-  exerciseFrequencyFactor: number; // 0, 0.1,0.2, 0.3
-  activityLevelFactor: number; // 1.2, 1.4, 1.6
+  exerciseFrequency: number; // 0, 0.1,0.2, 0.3
+  activityLevel: number; // 1.2, 1.4, 1.6
 }
 
 interface UserIntake {
@@ -29,9 +29,9 @@ const calculateTDEE = (user: UserBodyMetrics): number => {
     129.6 * Math.pow(user.weightKg, 0.55) +
     0.011 * Math.pow(user.heightCm, 2) -
     (age <= 60 ? 1.96 : 4.9) * age -
-    213.8 * (user.sex === Sex.MALE ? 0 : 1);
+    213.8 * (user.sex === Sex.Male ? 0 : 1);
 
-  const tdde = bmr * (user.exerciseFrequencyFactor + user.activityLevelFactor);
+  const tdde = bmr * (user.exerciseFrequency + user.activityLevel);
 
   return Math.round(tdde / 10) * 10;
 };
