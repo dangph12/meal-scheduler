@@ -27,44 +27,35 @@ export const Step5Account = () => {
   const handleBack = () => setStep(4);
 
   const handleFinish = async () => {
-    const { password, confirmPassword } = control._formValues;
-
-    if (password !== confirmPassword) {
-      setError('confirmPassword', {
-        message: 'Mật khẩu không khớp'
-      });
-      return;
-    }
-
     const isValid = await trigger([
       'name',
       'email',
       'password',
       'confirmPassword'
     ]);
-    if (isValid) {
-      try {
-        const res = await api.post<ApiResponseType<OnboardResponse>>(
-          '/v1/users/onboard',
-          control._formValues
-        );
+    if (!isValid) return;
 
-        if (!res || !res.data?.accessToken) {
-          console.error('Invalid response from server:', res);
-          return;
-        }
+    const { password, confirmPassword } = control._formValues;
+    if (password !== confirmPassword) {
+      setError('confirmPassword', { message: 'Mật khẩu không khớp' });
+      return;
+    }
 
-        const accessToken = res.data.accessToken;
+    try {
+      const res = await api.post<ApiResponseType<OnboardResponse>>(
+        '/v1/users/onboard',
+        control._formValues
+      );
+      if (!res?.data?.accessToken) return;
 
-        setAccessToken(accessToken);
-        router.push('/');
-      } catch (error) {
-        let message = 'Đăng ký thất bại';
-        if (typeof error === 'object' && error !== null && 'message' in error) {
-          message = String(error.message);
-        }
-        toast.error(message);
+      setAccessToken(res.data.accessToken);
+      router.push('/');
+    } catch (error) {
+      let message = 'Đăng kí thất bại';
+      if (typeof error === 'object' && error !== null && 'message' in error) {
+        message = String(error.message);
       }
+      toast.error(message);
     }
   };
 
