@@ -3,7 +3,7 @@ import { OnboardingProvider, useOnboarding } from '@/context/onboarding';
 
 const ProgressBar = () => {
   const { step } = useOnboarding();
-  const progress = (step / 4) * 100;
+  const progress = (step / 5) * 100;
   return (
     <div style={{ width: `${progress}%`, height: '5px', background: 'blue' }} />
   );
