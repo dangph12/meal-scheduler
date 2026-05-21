@@ -1,3 +1,4 @@
+import { ProteinIntakeGPerKg } from '@app/shared/constant/protein-intake-g-per-kg';
 import { Sex } from '@app/shared/constant/sex';
 
 interface UserBodyMetrics {
@@ -14,6 +15,7 @@ interface UserIntake {
   tdee: number;
   targetWeightKg: number;
   rateOfChangeKgPerWeek: number; // Absolute positive number (e.g., 0.5)
+  proteinIntakeGPerKg: ProteinIntakeGPerKg;
 }
 
 const calculateTDEE = (user: UserBodyMetrics): number => {
@@ -59,4 +61,9 @@ const calculateTargetIntake = (user: UserIntake): number => {
   const targetDailyIntake = user.tdee + dailyEnergyOffset;
 
   return Math.round(targetDailyIntake / 10) * 10;
+};
+
+const calculateProteinIntake = (user: UserIntake): number => {
+  const proteinGrams = user.weightKg * user.proteinIntakeGPerKg;
+  return Math.round(proteinGrams);
 };
