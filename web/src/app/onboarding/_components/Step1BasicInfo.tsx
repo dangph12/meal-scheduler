@@ -24,13 +24,7 @@ export const Step1BasicInfo = () => {
   const { setStep } = useOnboarding();
 
   const handleNext = async () => {
-    const isStepValid = await trigger([
-      'name',
-      'sex',
-      'dob',
-      'heightCm',
-      'weightKg'
-    ]);
+    const isStepValid = await trigger(['sex', 'dob', 'heightCm', 'weightKg']);
     if (isStepValid) setStep(2);
   };
 
@@ -38,18 +32,13 @@ export const Step1BasicInfo = () => {
     <div className='space-y-4'>
       <h2>Basic Info</h2>
       <Field>
-        <FieldLabel>Name</FieldLabel>
-        <Input {...register('name')} />
-        <FieldError errors={[errors.name]} />
-      </Field>
-      <Field>
         <FieldLabel>Sex</FieldLabel>
         <Controller
           control={control}
           name='sex'
           render={({ field }) => (
             <Select
-              value={field.value}
+              value={field.value ?? ''}
               onValueChange={field.onChange}
               onOpenChange={open => !open && field.onBlur()}
             >
