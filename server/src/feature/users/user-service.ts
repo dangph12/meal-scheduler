@@ -1,8 +1,9 @@
 import { Sex } from '@app/shared/constant/sex';
 import { CreateUserRequest } from '@app/shared/dto/user';
+import { HTTPException } from 'hono/http-exception';
 import { sign } from 'hono/jwt';
 
-import { User, UserModel } from '@/database/models/user';
+import { UserModel } from '@/database/models/user';
 import { WeightRecordModel } from '@/database/models/weight-record';
 import { PasswordUtils } from '@/util/password';
 
@@ -24,6 +25,14 @@ export const UserService = {
   async onboardUser(data: CreateUserRequest, jwtSecret: string) {
     const { confirmPassword, ...userData } = data;
     const hashedPassword = await PasswordUtils.hash(userData.password);
+
+    const existingUser = await UserModel.findOne({ email: userData.email });
+
+    if (existingUser) {
+      throw new HTTPException(409, {
+        message: 'Email đã tồn tại'
+      });
+    }
 
     const dob = new Date(userData.dob);
     const tdee = calculateTDEE({
@@ -80,7 +89,7 @@ export const UserService = {
 
 const calculateTDEE = (user: UserBodyMetrics): number => {
   if (user.weightKg <= 0 || user.heightCm <= 0) {
-    throw new Error('weightKg and heightCm must be positive');
+    throw new Error('Cân nặng và chiều cao phải là số dương');
   }
 
   const age = Math.floor(
@@ -105,7 +114,7 @@ const calculateTargetIntake = (user: {
   rateOfChangeKgPerWeek: number;
 }): number => {
   if (user.weightKg <= 0) {
-    throw new Error('weightKg must be positive');
+    throw new Error('Cân nặng phải là số dương');
   }
 
   const weightChangePercent =

@@ -43,14 +43,14 @@ export const createUserSchema = z
     name: z.string().min(1, 'Tên là bắt buộc'),
     email: z.email('Email không hợp lệ').min(1, 'Email là bắt buộc'),
     password: z
-      .string('Password is required')
-      .min(8, 'Password must be at least 8 characters long')
-      .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
-      .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
-      .regex(/[0-9]/, 'Password must contain at least one number')
+      .string('Mật khẩu là bắt buộc')
+      .min(8, 'Mật khẩu phải có ít nhất 8 ký tự')
+      .regex(/[A-Z]/, 'Mật khẩu phải chứa ít nhất một chữ cái viết hoa')
+      .regex(/[a-z]/, 'Mật khẩu phải chứa ít nhất một chữ cái viết thường')
+      .regex(/[0-9]/, 'Mật khẩu phải chứa ít nhất một chữ số')
       .regex(
         /[@$!%*?&]/,
-        'Password must contain at least one special character'
+        'Mật khẩu phải chứa ít nhất một ký tự đặc biệt (@$!%*?&)'
       ),
     confirmPassword: z.string('Xác nhận mật khẩu là bắt buộc')
   })

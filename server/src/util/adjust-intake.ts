@@ -71,7 +71,7 @@ export function adjustIntake(
   rateOfChangeKgPerWeek: number
 ): number {
   if (currentWeightKg <= 0) {
-    throw new Error('currentWeightKg must be positive');
+    throw new Error('Cân nặng hiện tại phải là số dương');
   }
 
   const weightChangePercent =

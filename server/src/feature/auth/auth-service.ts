@@ -10,7 +10,9 @@ export const AuthService = {
     const user = await UserModel.findOne({ email: data.email });
 
     if (!user) {
-      throw new HTTPException(400, { message: 'Invalid email or password' });
+      throw new HTTPException(400, {
+        message: 'Email hoặc mật khẩu không hợp lệ'
+      });
     }
 
     const isPasswordValid = await PasswordUtils.verify(
@@ -19,7 +21,9 @@ export const AuthService = {
     );
 
     if (!isPasswordValid) {
-      throw new HTTPException(400, { message: 'Invalid email or password' });
+      throw new HTTPException(400, {
+        message: 'Email hoặc mật khẩu không hợp lệ'
+      });
     }
     const expiredInMinutes = 15;
 

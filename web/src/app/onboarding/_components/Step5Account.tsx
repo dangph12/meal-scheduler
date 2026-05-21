@@ -3,6 +3,7 @@ import type { ApiResponseType } from '@app/shared/api-response';
 import { type OnboardResponse } from '@app/shared/dto/user';
 import { useRouter } from 'next/navigation';
 import { useFormContext } from 'react-hook-form';
+import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
@@ -18,6 +19,7 @@ export const Step5Account = () => {
     control,
     register,
     trigger,
+    setError,
     formState: { errors }
   } = useFormContext();
   const { setStep } = useOnboarding();
@@ -25,6 +27,15 @@ export const Step5Account = () => {
   const handleBack = () => setStep(4);
 
   const handleFinish = async () => {
+    const { password, confirmPassword } = control._formValues;
+
+    if (password !== confirmPassword) {
+      setError('confirmPassword', {
+        message: 'Mật khẩu không khớp'
+      });
+      return;
+    }
+
     const isValid = await trigger([
       'name',
       'email',
@@ -48,7 +59,11 @@ export const Step5Account = () => {
         setAccessToken(accessToken);
         router.push('/');
       } catch (error) {
-        console.error('Failed to onboard user:', error);
+        let message = 'Đăng ký thất bại';
+        if (typeof error === 'object' && error !== null && 'message' in error) {
+          message = String(error.message);
+        }
+        toast.error(message);
       }
     }
   };

@@ -2,7 +2,9 @@ import './globals.css';
 
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Inter } from 'next/font/google';
+import { ThemeProvider } from 'next-themes';
 
+import { Toaster } from '@/components/ui/sonner';
 import { AuthProvider } from '@/context/auth';
 import { cn } from '@/lib/shadcn';
 
@@ -31,6 +33,7 @@ export default function RootLayout({
   return (
     <html
       lang='en'
+      suppressHydrationWarning
       className={cn(
         'h-full',
         'antialiased',
@@ -40,9 +43,19 @@ export default function RootLayout({
         inter.variable
       )}
     >
-      <AuthProvider>
-        <body className='min-h-full flex flex-col'>{children}</body>
-      </AuthProvider>
+      <body className='min-h-full flex flex-col'>
+        <ThemeProvider
+          attribute='class'
+          defaultTheme='system'
+          enableSystem
+          disableTransitionOnChange
+        >
+          <AuthProvider>
+            {children}
+            <Toaster />
+          </AuthProvider>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

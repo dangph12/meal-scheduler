@@ -8,6 +8,7 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { Controller, useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -29,7 +30,7 @@ export default function Page() {
     control,
     handleSubmit,
     setError,
-    formState: { errors, isSubmitting }
+    formState: { isSubmitting }
   } = useForm<LoginRequest>({
     resolver: zodResolver(loginRequestSchema),
     defaultValues: {
@@ -46,16 +47,18 @@ export default function Page() {
       );
 
       if (!res || !res.data?.accessToken) {
-        setError('root', { message: 'Invalid response from server.' });
+        console.error('Invalid response from server:', res);
         return;
       }
 
-      const accessToken = res.data.accessToken;
-
-      setAccessToken(accessToken);
+      setAccessToken(res.data.accessToken);
       router.push('/');
     } catch (error) {
-      setError('root', { message: 'Login failed. Check your credentials.' });
+      let message = 'Đăng nhập thất bại';
+      if (typeof error === 'object' && error !== null && 'message' in error) {
+        message = String(error.message);
+      }
+      toast.error(message);
     }
   }
 
@@ -105,7 +108,6 @@ export default function Page() {
             )}
           />
         </FieldGroup>
-        {errors.root && <FieldError errors={[errors.root]} />}
         <Button type='submit' disabled={isSubmitting}>
           {isSubmitting ? 'Logging in…' : 'Login'}
         </Button>

@@ -8,15 +8,20 @@ interface ApiOptions extends Omit<RequestInit, 'body' | 'headers'> {
   headers?: Record<string, string>;
 }
 
-class ApiError extends Error {
-  status: number;
-  data: unknown;
+// Shape every backend response is expected to conform to
+interface ApiResponseEnvelope {
+  status?: 'success' | 'failed' | 'error';
+  message?: string;
+}
 
-  constructor(message: string, status: number, data: unknown) {
+export class ApiError extends Error {
+  constructor(
+    message: string,
+    public readonly status: number,
+    public readonly data: unknown
+  ) {
     super(message);
     this.name = 'ApiError';
-    this.status = status;
-    this.data = data;
   }
 }
 
@@ -27,53 +32,62 @@ export function setApiToken(token: string | null) {
   _token = token;
 }
 
+function buildHeaders(custom?: Record<string, string>): Record<string, string> {
+  return {
+    'Content-Type': 'application/json',
+    ...(_token ? { Authorization: `Bearer ${_token}` } : {}),
+    ...custom
+  };
+}
+
+async function parseErrorMessage(
+  res: Response
+): Promise<{ message: string; data: unknown }> {
+  try {
+    const data = await res.json();
+    const message =
+      typeof data === 'object' && data !== null && 'message' in data
+        ? String((data as Record<string, unknown>).message)
+        : `API error: ${res.status}`;
+    return { message, data };
+  } catch {
+    return { message: `API error: ${res.status}`, data: null };
+  }
+}
+
 async function request<T = unknown>(
   method: HttpMethod,
   path: string,
   options: ApiOptions = {}
-): Promise<T | undefined> {
-  const { body, params, headers: customHeaders, ...rest } = options;
+): Promise<T | null> {
+  const { body, params, headers, ...rest } = options;
 
   const url = new URL(`${BASE_URL}${path}`);
   if (params) {
-    Object.entries(params).forEach(([key, value]) => {
-      url.searchParams.set(key, value);
-    });
-  }
-
-  const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
-    ...customHeaders
-  };
-
-  if (_token) {
-    headers['Authorization'] = `Bearer ${_token}`;
+    Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
   }
 
   const res = await fetch(url.toString(), {
     method,
-    headers,
-    body: body ? JSON.stringify(body) : undefined,
+    headers: buildHeaders(headers),
+    body: body !== undefined ? JSON.stringify(body) : undefined,
     ...rest
   });
 
+  if (res.status === 204) return null;
+
   if (!res.ok) {
-    let errorData: unknown;
-    try {
-      errorData = await res.json();
-    } catch {
-      errorData = null;
-    }
-    throw new ApiError(
-      `API ${method} ${path} failed: ${res.status}`,
-      res.status,
-      errorData
-    );
+    const { message, data } = await parseErrorMessage(res);
+    throw new ApiError(message, res.status, data);
   }
 
-  if (res.status === 204) return undefined as T;
+  const data = (await res.json()) as T & ApiResponseEnvelope;
 
-  return res.json() as Promise<T>;
+  if (data?.status === 'failed' || data?.status === 'error') {
+    throw new ApiError(data.message ?? 'Request failed', res.status, data);
+  }
+
+  return data;
 }
 
 export const api = {
@@ -93,5 +107,4 @@ export const api = {
     request<T>('DELETE', path, options)
 };
 
-export { ApiError };
 export type { ApiOptions };
