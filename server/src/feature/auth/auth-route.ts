@@ -10,8 +10,5 @@ const authRoute = new Hono();
 authRoute.post('/login', validator('json', loginRequestSchema), c =>
   AuthController.login(c, c.req.valid('json'))
 );
-authRoute.post('/sign-up', validator('json', signUpRequestSchema), c =>
-  AuthController.signUp(c, c.req.valid('json'))
-);
 
 export default authRoute;

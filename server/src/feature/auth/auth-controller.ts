@@ -1,5 +1,5 @@
 import { ApiResponse } from '@app/shared/api-response';
-import type { LoginRequest, SignUpRequest } from '@app/shared/dto/auth';
+import type { LoginRequest } from '@app/shared/dto/auth';
 import type { Context } from 'hono';
 import { env } from 'hono/adapter';
 
@@ -16,16 +16,5 @@ export class AuthController {
     const accessToken = await AuthService.login(data, JWT_SECRET);
 
     return c.json(ApiResponse.success('Login successfully', { accessToken }));
-  }
-
-  static async signUp(c: Context, data: SignUpRequest) {
-    const { JWT_SECRET } = env<{ JWT_SECRET: string }>(c, 'node');
-
-    if (!JWT_SECRET) {
-      return c.json(ApiResponse.error('Server misconfiguration'), 500);
-    }
-
-    const accessToken = await AuthService.signUp(data, JWT_SECRET);
-    return c.json(ApiResponse.success('Sign up successfully', { accessToken }));
   }
 }

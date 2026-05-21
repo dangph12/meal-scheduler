@@ -43,11 +43,14 @@ export const createUserSchema = z
     name: z.string().min(1, 'Tên là bắt buộc'),
     email: z.email('Email không hợp lệ').min(1, 'Email là bắt buộc'),
     password: z
-      .string('Mật khẩu là bắt buộc')
-      .min(8, 'Mật khẩu phải có ít nhất 8 ký tự')
+      .string('Password is required')
+      .min(8, 'Password must be at least 8 characters long')
+      .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
+      .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
+      .regex(/[0-9]/, 'Password must contain at least one number')
       .regex(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$/,
-        'Mật khẩu phải gồm chữ thường, chữ hoa, số và ký tự đặc biệt'
+        /[@$!%*?&]/,
+        'Password must contain at least one special character'
       ),
     confirmPassword: z.string('Xác nhận mật khẩu là bắt buộc')
   })
@@ -57,3 +60,7 @@ export const createUserSchema = z
   });
 
 export type CreateUserRequest = z.infer<typeof createUserSchema>;
+
+export interface OnboardResponse {
+  accessToken: string;
+}

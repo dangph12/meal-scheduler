@@ -1,12 +1,19 @@
 'use client';
+import type { ApiResponseType } from '@app/shared/api-response';
+import { type OnboardResponse } from '@app/shared/dto/user';
+import { useRouter } from 'next/navigation';
 import { useFormContext } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
+import { useAuthContext } from '@/context/auth';
 import { useOnboarding } from '@/context/onboarding';
-
+import { api } from '@/lib/api';
 export const Step5Account = () => {
+  const router = useRouter();
+  const { setAccessToken } = useAuthContext();
+
   const {
     control,
     register,
@@ -25,8 +32,24 @@ export const Step5Account = () => {
       'confirmPassword'
     ]);
     if (isValid) {
-      console.log('Form Data:', control._formValues);
-      alert('Submitted! Check console for data');
+      try {
+        const res = await api.post<ApiResponseType<OnboardResponse>>(
+          '/v1/users/onboard',
+          control._formValues
+        );
+
+        if (!res || !res.data?.accessToken) {
+          console.error('Invalid response from server:', res);
+          return;
+        }
+
+        const accessToken = res.data.accessToken;
+
+        setAccessToken(accessToken);
+        router.push('/');
+      } catch (error) {
+        console.error('Failed to onboard user:', error);
+      }
     }
   };
 
