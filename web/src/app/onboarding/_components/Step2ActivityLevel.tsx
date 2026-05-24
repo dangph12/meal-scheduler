@@ -1,26 +1,29 @@
 'use client';
-import { ActivityLevelOptions } from '@app/shared/constant/activity-level';
-import { ExerciseFrequencyOptions } from '@app/shared/constant/exercise-frequency';
-import { Controller, useFormContext } from 'react-hook-form';
+import {
+  ActivityLevel,
+  ActivityLevelOptions
+} from '@app/shared/constant/activity-level';
+import {
+  ExerciseFrequency,
+  ExerciseFrequencyOptions
+} from '@app/shared/constant/exercise-frequency';
+import { useFormContext } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
-import { Field, FieldError, FieldLabel } from '@/components/ui/field';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from '@/components/ui/select';
+import { RadioList } from '@/components/ui/radio-list';
 import { useOnboarding } from '@/context/onboarding';
 
 export const Step2ActivityLevel = () => {
   const {
     trigger,
-    control,
+    watch,
+    setValue,
     formState: { errors }
   } = useFormContext();
   const { setStep } = useOnboarding();
+
+  const activityLevel = watch('activityLevel');
+  const exerciseFrequency = watch('exerciseFrequency');
 
   const handleNext = async () => {
     const isStepValid = await trigger(['activityLevel', 'exerciseFrequency']);
@@ -30,58 +33,20 @@ export const Step2ActivityLevel = () => {
   return (
     <div className='space-y-4'>
       <h2>Mức độ vận động</h2>
-      <Field>
-        <FieldLabel>Mức độ vận động</FieldLabel>
-        <Controller
-          control={control}
-          name='activityLevel'
-          render={({ field }) => (
-            <Select
-              value={field.value !== undefined ? String(field.value) : ''}
-              onValueChange={value => field.onChange(Number(value))}
-              onOpenChange={open => !open && field.onBlur()}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder='Chọn mức độ' />
-              </SelectTrigger>
-              <SelectContent>
-                {ActivityLevelOptions.map(option => (
-                  <SelectItem key={option.value} value={String(option.value)}>
-                    {option.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          )}
-        />
-        <FieldError errors={[errors.activityLevel]} />
-      </Field>
-      <Field>
-        <FieldLabel>Số buổi tập thể dục</FieldLabel>
-        <Controller
-          control={control}
-          name='exerciseFrequency'
-          render={({ field }) => (
-            <Select
-              value={field.value !== undefined ? String(field.value) : ''}
-              onValueChange={value => field.onChange(Number(value))}
-              onOpenChange={open => !open && field.onBlur()}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder='Chọn tần suất' />
-              </SelectTrigger>
-              <SelectContent>
-                {ExerciseFrequencyOptions.map(option => (
-                  <SelectItem key={option.value} value={String(option.value)}>
-                    {option.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          )}
-        />
-        <FieldError errors={[errors.exerciseFrequency]} />
-      </Field>
+      <RadioList
+        label='Mức độ vận động'
+        options={ActivityLevelOptions}
+        value={activityLevel}
+        onChange={val => setValue('activityLevel', val)}
+        error={errors.activityLevel?.message as string}
+      />
+      <RadioList
+        label='Số buổi tập thể dục'
+        options={ExerciseFrequencyOptions}
+        value={exerciseFrequency}
+        onChange={val => setValue('exerciseFrequency', val)}
+        error={errors.exerciseFrequency?.message as string}
+      />
       <Button onClick={() => setStep(1)}>Quay trở lại</Button>
       <Button onClick={handleNext}>Tiếp tục</Button>
     </div>

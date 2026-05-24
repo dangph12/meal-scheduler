@@ -1,26 +1,26 @@
 'use client';
-import { DietOptions } from '@app/shared/constant/diet';
-import { ProteinIntakeGPerKgOptions } from '@app/shared/constant/protein-intake-g-per-kg';
-import { Controller, useFormContext } from 'react-hook-form';
+import { Diet, DietOptions } from '@app/shared/constant/diet';
+import {
+  ProteinIntakeGPerKg,
+  ProteinIntakeGPerKgOptions
+} from '@app/shared/constant/protein-intake-g-per-kg';
+import { useFormContext } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
-import { Field, FieldError, FieldLabel } from '@/components/ui/field';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from '@/components/ui/select';
+import { RadioList } from '@/components/ui/radio-list';
 import { useOnboarding } from '@/context/onboarding';
 
 export const Step4Schedule = () => {
   const {
-    control,
     trigger,
+    watch,
+    setValue,
     formState: { errors }
   } = useFormContext();
   const { setStep } = useOnboarding();
+
+  const diet = watch('diet');
+  const proteinIntakeGPerKg = watch('proteinIntakeGPerKg');
 
   const handleNext = async () => {
     const isValid = await trigger(['diet', 'proteinIntakeGPerKg']);
@@ -32,58 +32,48 @@ export const Step4Schedule = () => {
   return (
     <div className='space-y-4'>
       <h2>Thiết lập bữa ăn</h2>
-      <Field>
-        <FieldLabel>Chế độ ăn</FieldLabel>
-        <Controller
-          control={control}
-          name='diet'
-          render={({ field }) => (
-            <Select
-              value={field.value ?? ''}
-              onValueChange={field.onChange}
-              onOpenChange={open => !open && field.onBlur()}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder='Chọn chế độ' />
-              </SelectTrigger>
-              <SelectContent>
-                {DietOptions.map(option => (
-                  <SelectItem key={option.value} value={option.value}>
-                    {option.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          )}
-        />
-        <FieldError errors={[errors.diet]} />
-      </Field>
-      <Field>
-        <FieldLabel>Mức độ chất đạm</FieldLabel>
-        <Controller
-          control={control}
-          name='proteinIntakeGPerKg'
-          render={({ field }) => (
-            <Select
-              value={field.value !== undefined ? String(field.value) : ''}
-              onValueChange={value => field.onChange(Number(value))}
-              onOpenChange={open => !open && field.onBlur()}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder='Chọn mức độ protein' />
-              </SelectTrigger>
-              <SelectContent>
-                {ProteinIntakeGPerKgOptions.map(option => (
-                  <SelectItem key={option.value} value={String(option.value)}>
-                    {option.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          )}
-        />
-        <FieldError errors={[errors.proteinIntakeLevel]} />
-      </Field>
+      <RadioList
+        label='Chế độ ăn'
+        options={[
+          {
+            label: Diet.Balanced,
+            value: Diet.Balanced,
+            description: 'Cân bằng dinh dưỡng'
+          },
+          {
+            label: Diet.LowCarb,
+            value: Diet.LowCarb,
+            description: 'Ít tinh bột'
+          },
+          { label: Diet.LowFat, value: Diet.LowFat, description: 'Ít chất béo' }
+        ]}
+        value={diet}
+        onChange={val => setValue('diet', val)}
+        error={errors.diet?.message as string}
+      />
+      <RadioList
+        label='Mức độ chất đạm'
+        options={[
+          {
+            label: 'Thấp (1.6g/kg)',
+            value: ProteinIntakeGPerKg.Low,
+            description: 'Phù hợp người mới bắt đầu'
+          },
+          {
+            label: 'Trung bình (1.8g/kg)',
+            value: ProteinIntakeGPerKg.Medium,
+            description: 'Phù hợp tập luyện thường xuyên'
+          },
+          {
+            label: 'Cao (2.2g/kg)',
+            value: ProteinIntakeGPerKg.High,
+            description: 'Phù hợp vận động viên'
+          }
+        ]}
+        value={proteinIntakeGPerKg}
+        onChange={val => setValue('proteinIntakeGPerKg', val)}
+        error={errors.proteinIntakeGPerKg?.message as string}
+      />
       <Button onClick={() => setStep(3)}>Quay trở lại</Button>
       <Button onClick={handleNext}>Tiếp tục</Button>
     </div>
