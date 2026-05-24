@@ -61,9 +61,9 @@ export const Step5Account = () => {
 
   return (
     <div className='space-y-4'>
-      <h2>Account Info</h2>
+      <h2>Tạo tài khoản</h2>
       <Field>
-        <FieldLabel>Name</FieldLabel>
+        <FieldLabel>Tên</FieldLabel>
         <Input {...register('name')} />
         <FieldError errors={[errors.name]} />
       </Field>
@@ -73,17 +73,17 @@ export const Step5Account = () => {
         <FieldError errors={[errors.email]} />
       </Field>
       <Field>
-        <FieldLabel>Password</FieldLabel>
+        <FieldLabel>Mật khẩu</FieldLabel>
         <Input type='password' {...register('password')} />
         <FieldError errors={[errors.password]} />
       </Field>
       <Field>
-        <FieldLabel>Confirm Password</FieldLabel>
+        <FieldLabel>Nhập lại mật khẩu</FieldLabel>
         <Input type='password' {...register('confirmPassword')} />
         <FieldError errors={[errors.confirmPassword]} />
       </Field>
-      <Button onClick={handleBack}>Back</Button>
-      <Button onClick={handleFinish}>Finish</Button>
+      <Button onClick={handleBack}>Quay trở lại</Button>
+      <Button onClick={handleFinish}>Hoàn thành</Button>
     </div>
   );
 };

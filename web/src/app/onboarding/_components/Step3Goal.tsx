@@ -33,9 +33,9 @@ export const Step3Goal = () => {
 
   return (
     <div className='space-y-4'>
-      <h2>Goal</h2>
+      <h2>Mục tiêu</h2>
       <Field>
-        <FieldLabel>Target Weight (kg)</FieldLabel>
+        <FieldLabel>Cân nặng mục tiêu (kg)</FieldLabel>
         <Input
           type='number'
           {...register('targetWeightKg', { valueAsNumber: true })}
@@ -43,7 +43,7 @@ export const Step3Goal = () => {
         <FieldError errors={[errors.targetWeightKg]} />
       </Field>
       <Field>
-        <FieldLabel>Rate of Change (kg/week)</FieldLabel>
+        <FieldLabel>Tốc độ thay đổi (kg/tuần)</FieldLabel>
         <Controller
           control={control}
           name='rateOfChangeKgPerWeek'
@@ -68,8 +68,8 @@ export const Step3Goal = () => {
         />
         <FieldError errors={[errors.rateOfChangeKgPerWeek]} />
       </Field>
-      <Button onClick={() => setStep(2)}>Back</Button>
-      <Button onClick={handleNext}>Next</Button>
+      <Button onClick={() => setStep(2)}>Quay trở lại</Button>
+      <Button onClick={handleNext}>Tiếp tục</Button>
     </div>
   );
 };

@@ -31,9 +31,9 @@ export const Step4Schedule = () => {
 
   return (
     <div className='space-y-4'>
-      <h2>Schedule Setting</h2>
+      <h2>Thiết lập bữa ăn</h2>
       <Field>
-        <FieldLabel>Diet</FieldLabel>
+        <FieldLabel>Chế độ ăn</FieldLabel>
         <Controller
           control={control}
           name='diet'
@@ -59,7 +59,7 @@ export const Step4Schedule = () => {
         <FieldError errors={[errors.diet]} />
       </Field>
       <Field>
-        <FieldLabel>Mức độ Protein</FieldLabel>
+        <FieldLabel>Mức độ chất đạm</FieldLabel>
         <Controller
           control={control}
           name='proteinIntakeGPerKg'
@@ -84,8 +84,8 @@ export const Step4Schedule = () => {
         />
         <FieldError errors={[errors.proteinIntakeLevel]} />
       </Field>
-      <Button onClick={() => setStep(3)}>Back</Button>
-      <Button onClick={handleNext}>Next</Button>
+      <Button onClick={() => setStep(3)}>Quay trở lại</Button>
+      <Button onClick={handleNext}>Tiếp tục</Button>
     </div>
   );
 };

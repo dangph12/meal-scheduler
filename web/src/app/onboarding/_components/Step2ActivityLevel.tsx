@@ -29,9 +29,9 @@ export const Step2ActivityLevel = () => {
 
   return (
     <div className='space-y-4'>
-      <h2>Activity Level</h2>
+      <h2>Mức độ vận động</h2>
       <Field>
-        <FieldLabel>Activity Level</FieldLabel>
+        <FieldLabel>Mức độ vận động</FieldLabel>
         <Controller
           control={control}
           name='activityLevel'
@@ -57,7 +57,7 @@ export const Step2ActivityLevel = () => {
         <FieldError errors={[errors.activityLevel]} />
       </Field>
       <Field>
-        <FieldLabel>Exercise Frequency</FieldLabel>
+        <FieldLabel>Số buổi tập thể dục</FieldLabel>
         <Controller
           control={control}
           name='exerciseFrequency'
@@ -82,8 +82,8 @@ export const Step2ActivityLevel = () => {
         />
         <FieldError errors={[errors.exerciseFrequency]} />
       </Field>
-      <Button onClick={() => setStep(1)}>Back</Button>
-      <Button onClick={handleNext}>Next</Button>
+      <Button onClick={() => setStep(1)}>Quay trở lại</Button>
+      <Button onClick={handleNext}>Tiếp tục</Button>
     </div>
   );
 };

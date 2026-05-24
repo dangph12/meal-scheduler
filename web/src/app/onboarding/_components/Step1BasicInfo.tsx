@@ -39,9 +39,9 @@ export const Step1BasicInfo = () => {
 
   return (
     <div className='space-y-4'>
-      <h2>Basic Info</h2>
+      <h2>Thông tin cá nhân</h2>
       <Field>
-        <FieldLabel>Sex</FieldLabel>
+        <FieldLabel>Giới tính</FieldLabel>
         <Controller
           control={control}
           name='sex'
@@ -67,7 +67,7 @@ export const Step1BasicInfo = () => {
         <FieldError errors={[errors.sex]} />
       </Field>
       <Field>
-        <FieldLabel>Date of Birth</FieldLabel>
+        <FieldLabel>Ngày tháng năm sinh</FieldLabel>
         <Controller
           control={control}
           name='dob'
@@ -104,7 +104,7 @@ export const Step1BasicInfo = () => {
         <FieldError errors={[errors.dob]} />
       </Field>
       <Field>
-        <FieldLabel>Height (cm)</FieldLabel>
+        <FieldLabel>Chiều cao (cm)</FieldLabel>
         <Input
           type='number'
           {...register('heightCm', { valueAsNumber: true })}
@@ -112,14 +112,14 @@ export const Step1BasicInfo = () => {
         <FieldError errors={[errors.heightCm]} />
       </Field>
       <Field>
-        <FieldLabel>Weight (kg)</FieldLabel>
+        <FieldLabel>Cân nặng hiện tại (kg)</FieldLabel>
         <Input
           type='number'
           {...register('weightKg', { valueAsNumber: true })}
         />
         <FieldError errors={[errors.weightKg]} />
       </Field>
-      <Button onClick={handleNext}>Next</Button>
+      <Button onClick={handleNext}>Tiếp tục</Button>
     </div>
   );
 };
