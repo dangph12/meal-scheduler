@@ -13,6 +13,9 @@ export default function Page() {
     <div className='flex flex-col items-center justify-center gap-4'>
       <h1>{name}</h1>
       <Button onClick={() => router.push('/login')}>Navigate to login</Button>
+      <Button onClick={() => router.push('/onboarding')}>
+        Navigate to onboarding
+      </Button>
     </div>
   );
 }

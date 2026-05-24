@@ -1,10 +1,19 @@
 'use client';
 import { SexOptions } from '@app/shared/constant/sex';
+import { format } from 'date-fns';
+import { vi } from 'date-fns/locale';
+import { Calendar } from 'lucide-react';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
+import { Calendar as CalendarComponent } from '@/components/ui/calendar';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger
+} from '@/components/ui/popover';
 import {
   Select,
   SelectContent,
@@ -59,7 +68,39 @@ export const Step1BasicInfo = () => {
       </Field>
       <Field>
         <FieldLabel>Date of Birth</FieldLabel>
-        <Input type='date' {...register('dob')} />
+        <Controller
+          control={control}
+          name='dob'
+          render={({ field }) => (
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant='outline'
+                  className='w-full justify-between text-left font-normal'
+                >
+                  {field.value ? (
+                    format(new Date(field.value), 'dd/MM/yyyy', { locale: vi })
+                  ) : (
+                    <span>Chọn ngày sinh</span>
+                  )}
+                  <Calendar />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className='w-auto p-0' align='end'>
+                <CalendarComponent
+                  mode='single'
+                  selected={field.value ? new Date(field.value) : undefined}
+                  onSelect={date => field.onChange(date?.toISOString())}
+                  captionLayout='dropdown'
+                  startMonth={new Date(1900, 0, 1)}
+                  endMonth={new Date()}
+                  disabled={date => date > new Date()}
+                  locale={vi}
+                />
+              </PopoverContent>
+            </Popover>
+          )}
+        />
         <FieldError errors={[errors.dob]} />
       </Field>
       <Field>
