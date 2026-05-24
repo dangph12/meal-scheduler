@@ -42,7 +42,6 @@ export const Step5Account = () => {
     }
 
     try {
-      console.log(control._formValues);
       const res = await api.post<ApiResponseType<OnboardResponse>>(
         '/v1/users/onboard',
         control._formValues
