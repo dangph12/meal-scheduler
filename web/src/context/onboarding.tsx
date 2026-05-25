@@ -7,7 +7,14 @@ import { RateOfChangeKgPerWeek } from '@app/shared/constant/rate-of-change-kg-pe
 import { Sex } from '@app/shared/constant/sex';
 import { OnboardRequest, onboardSchema } from '@app/shared/dto/user';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createContext, ReactNode, useContext, useState } from 'react';
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useRef,
+  useState
+} from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 const defaultValues: Partial<OnboardRequest> = {
@@ -27,17 +34,40 @@ const defaultValues: Partial<OnboardRequest> = {
   confirmPassword: ''
 };
 
-const OnboardingContext = createContext<
-  { step: number; setStep: (s: number) => void } | undefined
->(undefined);
+interface OnboardingContextValue {
+  step: number;
+  setStep: (s: number) => void;
+}
+
+const OnboardingContext = createContext<OnboardingContextValue | undefined>(
+  undefined
+);
 
 export const OnboardingProvider = ({ children }: { children: ReactNode }) => {
-  const [step, setStep] = useState(1);
+  const [step, setStepState] = useState(1);
+
   const form = useForm<OnboardRequest>({
     resolver: zodResolver(onboardSchema),
-    mode: 'onChange',
+    mode: 'onSubmit',
+    reValidateMode: 'onSubmit',
     defaultValues
   });
+
+  const clearErrorsRef = useRef(form.clearErrors);
+  clearErrorsRef.current = form.clearErrors;
+
+  useEffect(() => {
+    const subscription = form.watch((_, { name }) => {
+      if (name) {
+        clearErrorsRef.current(name as any);
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [form.watch]);
+
+  const setStep = (newStep: number) => {
+    setStepState(newStep);
+  };
 
   return (
     <FormProvider {...form}>
