@@ -1,4 +1,4 @@
-import { loginRequestSchema, signUpRequestSchema } from '@app/shared/dto/auth';
+import { loginRequestSchema } from '@app/shared/dto/auth';
 import { Hono } from 'hono';
 
 import { validator } from '@/middleware/validate';

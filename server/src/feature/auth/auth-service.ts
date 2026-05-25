@@ -11,7 +11,7 @@ export const AuthService = {
 
     if (!user) {
       throw new HTTPException(400, {
-        message: 'Email hoặc mật khẩu không hợp lệ'
+        message: 'Email hoặc mật khẩu không đúng'
       });
     }
 
@@ -22,7 +22,7 @@ export const AuthService = {
 
     if (!isPasswordValid) {
       throw new HTTPException(400, {
-        message: 'Email hoặc mật khẩu không hợp lệ'
+        message: 'Email hoặc mật khẩu không đúng'
       });
     }
     const expiredInMinutes = 15;
