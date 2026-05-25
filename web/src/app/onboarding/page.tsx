@@ -6,6 +6,7 @@ import { Step2ActivityLevel } from './_components/Step2ActivityLevel';
 import { Step3Goal } from './_components/Step3Goal';
 import { Step4Schedule } from './_components/Step4Schedule';
 import { Step5Account } from './_components/Step5Account';
+import { Step5CaloriesPreview } from './_components/Step5CaloriesPreview';
 
 export default function OnboardingPage() {
   const { step } = useOnboarding();
@@ -16,7 +17,8 @@ export default function OnboardingPage() {
       {step === 2 && <Step2ActivityLevel />}
       {step === 3 && <Step3Goal />}
       {step === 4 && <Step4Schedule />}
-      {step === 5 && <Step5Account />}
+      {step === 5 && <Step5CaloriesPreview />}
+      {step === 6 && <Step5Account />}
     </div>
   );
 }

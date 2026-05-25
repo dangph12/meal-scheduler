@@ -1,5 +1,5 @@
 import { Sex } from '@app/shared/constant/sex';
-import { CreateUserRequest } from '@app/shared/dto/user';
+import { OnboardRequest, UserProfileRequest } from '@app/shared/dto/user';
 import { HTTPException } from 'hono/http-exception';
 import { sign } from 'hono/jwt';
 
@@ -16,13 +16,30 @@ interface UserBodyMetrics {
   activityLevel: number;
 }
 
-interface ProteinIntakeInput {
-  weightKg: number;
-  proteinIntakeGPerKg: number;
-}
-
 export const UserService = {
-  async onboardUser(data: CreateUserRequest, jwtSecret: string) {
+  async previewCaloriesIntake(data: UserProfileRequest) {
+    const dob = new Date(data.dob);
+
+    const tdee = calculateTDEE({
+      sex: data.sex,
+      dob,
+      heightCm: data.heightCm,
+      weightKg: data.weightKg,
+      exerciseFrequency: Number(data.exerciseFrequency),
+      activityLevel: Number(data.activityLevel)
+    });
+
+    const suggestedCaloriesIntake = calculateCaloriesIntake({
+      weightKg: data.weightKg,
+      tdee,
+      targetWeightKg: data.targetWeightKg,
+      rateOfChangeKgPerWeek: Number(data.rateOfChangeKgPerWeek)
+    });
+
+    return { tdee, suggestedCaloriesIntake };
+  },
+
+  async onboardUser(data: OnboardRequest, jwtSecret: string) {
     const { confirmPassword, ...userData } = data;
     const hashedPassword = await PasswordUtils.hash(userData.password);
 
@@ -44,7 +61,7 @@ export const UserService = {
       activityLevel: Number(userData.activityLevel)
     });
 
-    const targetIntake = calculateTargetIntake({
+    const caloriesIntake = calculateCaloriesIntake({
       weightKg: userData.weightKg,
       tdee,
       targetWeightKg: userData.targetWeightKg,
@@ -65,7 +82,7 @@ export const UserService = {
       diet: userData.diet,
       proteinIntakeGPerKg: userData.proteinIntakeGPerKg,
       tdee,
-      targetIntake
+      caloriesIntake
     });
 
     await WeightRecordModel.create({
@@ -107,7 +124,7 @@ const calculateTDEE = (user: UserBodyMetrics): number => {
   return Math.round(tdde / 10) * 10;
 };
 
-const calculateTargetIntake = (user: {
+const calculateCaloriesIntake = (user: {
   weightKg: number;
   tdee: number;
   targetWeightKg: number;
@@ -133,9 +150,4 @@ const calculateTargetIntake = (user: {
   const targetDailyIntake = user.tdee + dailyEnergyOffset;
 
   return Math.round(targetDailyIntake / 10) * 10;
-};
-
-const calculateProteinIntake = (user: ProteinIntakeInput): number => {
-  const proteinGrams = user.weightKg * user.proteinIntakeGPerKg;
-  return Math.round(proteinGrams);
 };

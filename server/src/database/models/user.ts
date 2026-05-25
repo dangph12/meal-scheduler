@@ -16,7 +16,7 @@ const userSchema = new Schema(
     diet: { type: String, required: true },
     proteinIntakeGPerKg: { type: Number, required: true },
     tdee: { type: Number, required: true },
-    targetIntake: { type: Number, required: true },
+    caloriesIntake: { type: Number, required: true },
     isActive: { type: Boolean, default: true }
   },
   {

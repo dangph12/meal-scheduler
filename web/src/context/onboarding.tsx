@@ -5,12 +5,12 @@ import { ExerciseFrequency } from '@app/shared/constant/exercise-frequency';
 import { ProteinIntakeGPerKg } from '@app/shared/constant/protein-intake-g-per-kg';
 import { RateOfChangeKgPerWeek } from '@app/shared/constant/rate-of-change-kg-per-week';
 import { Sex } from '@app/shared/constant/sex';
-import { CreateUserRequest, createUserSchema } from '@app/shared/dto/user';
+import { OnboardRequest, onboardSchema } from '@app/shared/dto/user';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createContext, ReactNode, useContext, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-const defaultValues: CreateUserRequest = {
+const defaultValues: Partial<OnboardRequest> = {
   sex: Sex.Male,
   dob: '',
   heightCm: 0,
@@ -33,8 +33,8 @@ const OnboardingContext = createContext<
 
 export const OnboardingProvider = ({ children }: { children: ReactNode }) => {
   const [step, setStep] = useState(1);
-  const form = useForm<CreateUserRequest>({
-    resolver: zodResolver(createUserSchema),
+  const form = useForm<OnboardRequest>({
+    resolver: zodResolver(onboardSchema),
     mode: 'onChange',
     defaultValues
   });

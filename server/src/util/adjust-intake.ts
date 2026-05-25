@@ -64,7 +64,7 @@ export function adjustTdee(logs: DailyLog[]): TdeeResult {
  * THE COACH: Goal-oriented calculation.
  * Takes the biologically verified TDEE and applies the user's specific weight goals.
  */
-export function adjustIntake(
+export function adjustCaloriesIntake(
   trueTdee: number,
   currentWeightKg: number,
   targetWeightKg: number,

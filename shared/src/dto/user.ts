@@ -6,7 +6,11 @@ import { RateOfChangeKgPerWeek } from '../constant/rate-of-change-kg-per-week';
 import { Diet } from '../constant/diet';
 import { ProteinIntakeGPerKg } from '../constant/protein-intake-g-per-kg';
 
-export const createUserSchema = z.object({
+/**
+ * Steps 1-4: Profile data
+ * Used by: onboard preview, profile edit
+ */
+export const userProfileSchema = z.object({
   // step 1: basic info
   sex: z.enum(Sex, 'Giới tính là bắt buộc'),
   dob: z.string().min(1, 'Ngày sinh là bắt buộc'),
@@ -15,28 +19,35 @@ export const createUserSchema = z.object({
     .min(1, 'Chiều cao phải lớn hơn 0'),
   weightKg: z.number('Cân nặng là bắt buộc').min(1, 'Cân nặng phải lớn hơn 0'),
   // step 2: activity level
-  // step 2-1
   activityLevel: z.enum(ActivityLevel, 'Mức độ hoạt động là bắt buộc'),
-  // step 2-2
   exerciseFrequency: z.enum(
     ExerciseFrequency,
     'Tần suất tập luyện là bắt buộc'
   ),
   // step 3: goal
-  targetWeightKg: z.number('Cân nặng mục tiêu là bắt buộc'),
+  targetWeightKg: z
+    .number('Cân nặng mục tiêu là bắt buộc')
+    .min(1, 'Cân nặng mục tiêu phải lớn hơn 0'),
   rateOfChangeKgPerWeek: z.enum(
     RateOfChangeKgPerWeek,
     'Tốc độ thay đổi cân nặng là bắt buộc'
   ),
   // step 4: schedule setting
-  // diet: balanced, low-carb, low-fat
   diet: z.enum(Diet, 'Chế độ ăn là bắt buộc'),
-  // protein intake:
   proteinIntakeGPerKg: z.enum(
     ProteinIntakeGPerKg,
     'Mức độ nạp protein là bắt buộc'
-  ),
-  // step 5: create account
+  )
+});
+
+export type UserProfileRequest = z.infer<typeof userProfileSchema>;
+
+/**
+ * Onboard final submit: profile + target intake + account credentials (step 5)
+ * Used by: POST /onboard (final submit after step 4)
+ */
+export const onboardSchema = userProfileSchema.extend({
+  // step 5: account credentials
   name: z.string().min(1, 'Tên là bắt buộc'),
   email: z.email('Email không hợp lệ').min(1, 'Email là bắt buộc'),
   password: z
@@ -49,11 +60,44 @@ export const createUserSchema = z.object({
       /[@$!%*?&]/,
       'Mật khẩu phải chứa ít nhất một ký tự đặc biệt (@$!%*?&)'
     ),
-  confirmPassword: z.string('Xác nhận mật khẩu là bắt buộc')
+  confirmPassword: z.string('Xác nhận mật khẩu là bắt buộc'),
+  // step 5: calories adjustment
+  caloriesIntake: z.number('Lượng calo mục tiêu là bắt buộc')
 });
 
-export type CreateUserRequest = z.infer<typeof createUserSchema>;
+export type OnboardRequest = z.infer<typeof onboardSchema>;
+
+/**
+ * Update profile: user edits profile data post-onboarding
+ * Used by: PATCH /profile
+ */
+export const updateProfileSchema = userProfileSchema;
+
+export type UpdateProfileRequest = z.infer<typeof updateProfileSchema>;
+
+/**
+ * Update target intake: user adjusts intake post-onboarding
+ * Used by: PATCH /profile/intake
+ */
+export const updateCaloriesIntakeSchema = z.object({
+  caloriesIntake: z.number('Lượng calo mục tiêu là bắt buộc')
+});
+
+export type UpdateCaloriesIntakeRequest = z.infer<
+  typeof updateCaloriesIntakeSchema
+>;
+
+// Legacy alias — remove after updating all consumers
+/** @deprecated Use onboardSchema instead */
+export const createUserSchema = onboardSchema;
+/** @deprecated Use OnboardRequest instead */
+export type CreateUserRequest = OnboardRequest;
 
 export interface OnboardResponse {
   accessToken: string;
+}
+
+export interface PreviewCaloriesIntakeResponse {
+  tdee: number;
+  suggestedCaloriesIntake: number;
 }
