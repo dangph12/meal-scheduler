@@ -5,7 +5,12 @@ import { cn } from '@/lib/shadcn';
 
 interface RadioListProps {
   label: string;
-  options: { label: string; value: string | number; description?: string }[];
+  options: {
+    label: string;
+    value: string | number;
+    description?: string;
+    disabled?: boolean;
+  }[];
   value: string | number;
   onChange: (value: unknown) => void;
   error?: string;
@@ -24,17 +29,21 @@ export function RadioList({
       <div className='flex flex-col gap-2'>
         {options.map(option => {
           const isSelected = value === option.value;
+          const isDisabled = option.disabled;
 
           return (
             <div
               key={String(option.value)}
               className={cn(
-                'relative flex items-center gap-3 rounded-lg border p-3 cursor-pointer transition-all',
-                isSelected
+                'relative flex items-center gap-3 rounded-lg border p-3 transition-all',
+                !isDisabled &&
+                  'cursor-pointer hover:border-border/50 hover:bg-muted/50',
+                isDisabled && 'cursor-not-allowed opacity-50',
+                isSelected && !isDisabled
                   ? 'border-primary bg-primary/5'
-                  : 'border-transparent hover:border-border/50 bg-muted/30 hover:bg-muted/50'
+                  : 'border-transparent bg-muted/30'
               )}
-              onClick={() => onChange(option.value)}
+              onClick={() => !isDisabled && onChange(option.value)}
             >
               <div
                 className={cn(

@@ -1,6 +1,6 @@
 'use client';
 import { RateOfChangeKgPerWeek } from '@app/shared/constant/rate-of-change-kg-per-week';
-import { use, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
@@ -23,7 +23,23 @@ export const Step3Goal = () => {
   const { setStep } = useOnboarding();
 
   const weightKg = watch('weightKg');
+  const targetWeightKg = watch('targetWeightKg');
   const rateOfChangeKgPerWeek = watch('rateOfChangeKgPerWeek');
+
+  // Auto-select "0 kg/tuần" when target equals current weight
+  const isTargetSameAsCurrent =
+    weightKg &&
+    targetWeightKg !== undefined &&
+    Math.abs(targetWeightKg - weightKg) < 0.01;
+
+  useEffect(() => {
+    if (
+      isTargetSameAsCurrent &&
+      rateOfChangeKgPerWeek !== RateOfChangeKgPerWeek.Zero
+    ) {
+      setValue('rateOfChangeKgPerWeek', RateOfChangeKgPerWeek.Zero);
+    }
+  }, [isTargetSameAsCurrent, rateOfChangeKgPerWeek, setValue]);
 
   const { minTarget, maxTarget } = useMemo(() => {
     if (!weightKg || !rateOfChangeKgPerWeek) {
@@ -79,17 +95,30 @@ export const Step3Goal = () => {
       <RadioList
         label='Tốc độ thay đổi'
         options={[
-          { label: '0 kg/tuần', value: RateOfChangeKgPerWeek.Zero },
+          {
+            label: '0 kg/tuần',
+            value: RateOfChangeKgPerWeek.Zero
+          },
           {
             label: '0.25 kg/tuần',
-            value: RateOfChangeKgPerWeek.Quarter
+            value: RateOfChangeKgPerWeek.Quarter,
+            disabled: isTargetSameAsCurrent
           },
-          { label: '0.5 kg/tuần', value: RateOfChangeKgPerWeek.Half },
+          {
+            label: '0.5 kg/tuần',
+            value: RateOfChangeKgPerWeek.Half,
+            disabled: isTargetSameAsCurrent
+          },
           {
             label: '0.75 kg/tuần',
-            value: RateOfChangeKgPerWeek.ThreeQuarter
+            value: RateOfChangeKgPerWeek.ThreeQuarter,
+            disabled: isTargetSameAsCurrent
           },
-          { label: '1 kg/tuần', value: RateOfChangeKgPerWeek.One }
+          {
+            label: '1 kg/tuần',
+            value: RateOfChangeKgPerWeek.One,
+            disabled: isTargetSameAsCurrent
+          }
         ]}
         value={rateOfChangeKgPerWeek}
         onChange={val => setValue('rateOfChangeKgPerWeek', val)}

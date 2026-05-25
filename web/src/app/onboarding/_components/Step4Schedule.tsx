@@ -62,12 +62,12 @@ export const Step4Schedule = () => {
           {
             label: 'Trung bình (1.8g/kg)',
             value: ProteinIntakeGPerKg.Medium,
-            description: 'Phù hợp tập luyện thường xuyên'
+            description: 'Phù hợp tập luyện 3-4 lần/tuần'
           },
           {
             label: 'Cao (2.2g/kg)',
             value: ProteinIntakeGPerKg.High,
-            description: 'Phù hợp vận động viên'
+            description: 'Phù hợp tập luyện thường xuyên'
           }
         ]}
         value={proteinIntakeGPerKg}
