@@ -22,6 +22,8 @@ export class ApiError extends Error {
   ) {
     super(message);
     this.name = 'ApiError';
+    // Fix instanceof Error for bundled code
+    Object.setPrototypeOf(this, new.target.prototype);
   }
 }
 

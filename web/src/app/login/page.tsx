@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { useAuthContext } from '@/context/auth';
-import { api } from '@/lib/api';
+import { api, ApiError } from '@/lib/api';
 
 export default function Page() {
   const router = useRouter();
@@ -51,13 +51,18 @@ export default function Page() {
         return;
       }
 
+      toast.success(res.message || 'Đăng nhập thành công');
+
       setAccessToken(res.data.accessToken);
       router.push('/');
     } catch (error) {
+      console.error('[Login] Caught error:', error);
+
       let message = 'Đăng nhập thất bại';
-      if (typeof error === 'object' && error !== null && 'message' in error) {
-        message = String(error.message);
+      if (error instanceof ApiError) {
+        message = error.message;
       }
+
       toast.error(message);
     }
   }

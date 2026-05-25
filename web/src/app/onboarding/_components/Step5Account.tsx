@@ -10,7 +10,7 @@ import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { useAuthContext } from '@/context/auth';
 import { useOnboarding } from '@/context/onboarding';
-import { api } from '@/lib/api';
+import { api, ApiError } from '@/lib/api';
 export const Step5Account = () => {
   const router = useRouter();
   const { setAccessToken } = useAuthContext();
@@ -24,7 +24,7 @@ export const Step5Account = () => {
   } = useFormContext();
   const { setStep } = useOnboarding();
 
-  const handleBack = () => setStep(4);
+  const handleBack = () => setStep(5);
 
   const handleFinish = async () => {
     const isValid = await trigger([
@@ -48,12 +48,14 @@ export const Step5Account = () => {
       );
       if (!res?.data?.accessToken) return;
 
+      toast.success(res.message || 'Đăng ký thành công');
+
       setAccessToken(res.data.accessToken);
       router.push('/');
     } catch (error) {
       let message = 'Đăng kí thất bại';
-      if (typeof error === 'object' && error !== null && 'message' in error) {
-        message = String(error.message);
+      if (error instanceof ApiError) {
+        message = error.message;
       }
       toast.error(message);
     }
