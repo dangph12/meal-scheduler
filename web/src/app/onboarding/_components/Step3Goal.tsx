@@ -1,5 +1,6 @@
 'use client';
 import { RateOfChangeKgPerWeek } from '@app/shared/constant/rate-of-change-kg-per-week';
+import { use, useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
@@ -7,6 +8,9 @@ import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { RadioList } from '@/components/ui/radio-list';
 import { useOnboarding } from '@/context/onboarding';
+
+/** Maximum timeframe for target weight goal (6 months = 26 weeks) */
+const TARGET_GOAL_WEEKS = 26;
 
 export const Step3Goal = () => {
   const {
@@ -18,7 +22,19 @@ export const Step3Goal = () => {
   } = useFormContext();
   const { setStep } = useOnboarding();
 
+  const weightKg = watch('weightKg');
   const rateOfChangeKgPerWeek = watch('rateOfChangeKgPerWeek');
+
+  const { minTarget, maxTarget } = useMemo(() => {
+    if (!weightKg || !rateOfChangeKgPerWeek) {
+      return { minTarget: null, maxTarget: null };
+    }
+    const maxChange = rateOfChangeKgPerWeek * TARGET_GOAL_WEEKS;
+    return {
+      minTarget: weightKg - maxChange,
+      maxTarget: weightKg + maxChange
+    };
+  }, [weightKg, rateOfChangeKgPerWeek]);
 
   const handleNext = async () => {
     const isStepValid = await trigger([
@@ -32,10 +48,31 @@ export const Step3Goal = () => {
     <div className='space-y-4'>
       <h2>Mục tiêu</h2>
       <Field>
-        <FieldLabel>Cân nặng mục tiêu (kg)</FieldLabel>
+        <FieldLabel>
+          Cân nặng mục tiêu (kg)
+          {minTarget !== null && maxTarget !== null && (
+            <span className='text-sm text-muted-foreground ml-2'>
+              (cho phép: {minTarget.toFixed(1)}-{maxTarget.toFixed(1)} kg)
+            </span>
+          )}
+        </FieldLabel>
         <Input
           type='number'
-          {...register('targetWeightKg', { valueAsNumber: true })}
+          {...register('targetWeightKg', {
+            valueAsNumber: true,
+            validate: value => {
+              if (
+                minTarget !== null &&
+                maxTarget !== null &&
+                (value < minTarget || value > maxTarget)
+              ) {
+                return `Cân nặng mục tiêu phải trong khoảng ${minTarget.toFixed(
+                  1
+                )}-${maxTarget.toFixed(1)} kg`;
+              }
+              return true;
+            }
+          })}
         />
         <FieldError errors={[errors.targetWeightKg]} />
       </Field>
