@@ -11,7 +11,8 @@ import { Input } from '@/components/ui/input';
 import { useAuthContext } from '@/context/auth';
 import { useOnboarding } from '@/context/onboarding';
 import { api, ApiError } from '@/lib/api';
-export const Step5Account = () => {
+
+export const Step6Account = () => {
   const router = useRouter();
   const { setAccessToken } = useAuthContext();
 
