@@ -26,18 +26,24 @@ export const Step3Goal = () => {
   const targetWeightKg = watch('targetWeightKg');
   const rateOfChangeKgPerWeek = watch('rateOfChangeKgPerWeek');
 
-  // Auto-select "0 kg/tuần" when target equals current weight
   const isTargetSameAsCurrent =
     weightKg &&
     targetWeightKg !== undefined &&
     Math.abs(targetWeightKg - weightKg) < 0.01;
 
+  // Reset rateOfChangeKgPerWeek if current value becomes disabled
   useEffect(() => {
     if (
       isTargetSameAsCurrent &&
       rateOfChangeKgPerWeek !== RateOfChangeKgPerWeek.Zero
     ) {
       setValue('rateOfChangeKgPerWeek', RateOfChangeKgPerWeek.Zero);
+    }
+    if (
+      !isTargetSameAsCurrent &&
+      rateOfChangeKgPerWeek === RateOfChangeKgPerWeek.Zero
+    ) {
+      setValue('rateOfChangeKgPerWeek', RateOfChangeKgPerWeek.Quarter);
     }
   }, [isTargetSameAsCurrent, rateOfChangeKgPerWeek, setValue]);
 
@@ -97,7 +103,8 @@ export const Step3Goal = () => {
         options={[
           {
             label: '0 kg/tuần',
-            value: RateOfChangeKgPerWeek.Zero
+            value: RateOfChangeKgPerWeek.Zero,
+            disabled: !isTargetSameAsCurrent
           },
           {
             label: '0.25 kg/tuần',
