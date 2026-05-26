@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useFormContext } from 'react-hook-form';
 import { toast } from 'sonner';
 
+import { OnboardingButtonGroup } from '@/components/onboarding-button-group';
 import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
@@ -85,8 +86,11 @@ export const Step6Account = () => {
         <Input type='password' {...register('confirmPassword')} />
         <FieldError errors={[errors.confirmPassword]} />
       </Field>
-      <Button onClick={handleBack}>Quay trở lại</Button>
-      <Button onClick={handleFinish}>Hoàn thành</Button>
+      <OnboardingButtonGroup
+        onBack={handleBack}
+        onNext={handleFinish}
+        isLastStep
+      />
     </div>
   );
 };

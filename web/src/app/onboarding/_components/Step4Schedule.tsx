@@ -6,7 +6,7 @@ import {
 } from '@app/shared/constant/protein-intake-g-per-kg';
 import { useFormContext } from 'react-hook-form';
 
-import { Button } from '@/components/ui/button';
+import { OnboardingButtonGroup } from '@/components/onboarding-button-group';
 import { RadioList } from '@/components/ui/radio-list';
 import { useOnboarding } from '@/context/onboarding';
 
@@ -74,8 +74,7 @@ export const Step4Schedule = () => {
         onChange={val => setValue('proteinIntakeGPerKg', val)}
         error={errors.proteinIntakeGPerKg?.message as string}
       />
-      <Button onClick={() => setStep(3)}>Quay trở lại</Button>
-      <Button onClick={handleNext}>Tiếp tục</Button>
+      <OnboardingButtonGroup onBack={() => setStep(3)} onNext={handleNext} />
     </div>
   );
 };

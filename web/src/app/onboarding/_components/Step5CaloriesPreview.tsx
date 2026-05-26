@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { toast } from 'sonner';
 
+import { OnboardingButtonGroup } from '@/components/onboarding-button-group';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { useOnboarding } from '@/context/onboarding';
@@ -112,14 +113,11 @@ export const Step5CaloriesPreview = () => {
         </>
       )}
 
-      <div className='flex gap-2'>
-        <Button onClick={() => setStep(4)} variant='outline'>
-          Quay trở lại
-        </Button>
-        <Button onClick={handleNext} disabled={loading}>
-          Tiếp tục
-        </Button>
-      </div>
+      <OnboardingButtonGroup
+        onBack={() => setStep(4)}
+        onNext={handleNext}
+        isPending={loading}
+      />
     </div>
   );
 };

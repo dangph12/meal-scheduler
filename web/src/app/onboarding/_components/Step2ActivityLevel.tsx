@@ -9,7 +9,7 @@ import {
 } from '@app/shared/constant/exercise-frequency';
 import { useFormContext } from 'react-hook-form';
 
-import { Button } from '@/components/ui/button';
+import { OnboardingButtonGroup } from '@/components/onboarding-button-group';
 import { RadioList } from '@/components/ui/radio-list';
 import { useOnboarding } from '@/context/onboarding';
 
@@ -47,8 +47,7 @@ export const Step2ActivityLevel = () => {
         onChange={val => setValue('exerciseFrequency', val)}
         error={errors.exerciseFrequency?.message as string}
       />
-      <Button onClick={() => setStep(1)}>Quay trở lại</Button>
-      <Button onClick={handleNext}>Tiếp tục</Button>
+      <OnboardingButtonGroup onBack={() => setStep(1)} onNext={handleNext} />
     </div>
   );
 };

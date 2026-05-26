@@ -3,6 +3,7 @@ import { RateOfChangeKgPerWeek } from '@app/shared/constant/rate-of-change-kg-pe
 import { useEffect, useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
 
+import { OnboardingButtonGroup } from '@/components/onboarding-button-group';
 import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
@@ -131,8 +132,7 @@ export const Step3Goal = () => {
         onChange={val => setValue('rateOfChangeKgPerWeek', val)}
         error={errors.rateOfChangeKgPerWeek?.message as string}
       />
-      <Button onClick={() => setStep(2)}>Quay trở lại</Button>
-      <Button onClick={handleNext}>Tiếp tục</Button>
+      <OnboardingButtonGroup onBack={() => setStep(2)} onNext={handleNext} />
     </div>
   );
 };

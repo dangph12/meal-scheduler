@@ -5,6 +5,7 @@ import { vi } from 'date-fns/locale';
 import { Calendar } from 'lucide-react';
 import { Controller, useFormContext } from 'react-hook-form';
 
+import { OnboardingButtonGroup } from '@/components/onboarding-button-group';
 import { Button } from '@/components/ui/button';
 import { Calendar as CalendarComponent } from '@/components/ui/calendar';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
@@ -119,7 +120,11 @@ export const Step1BasicInfo = () => {
         />
         <FieldError errors={[errors.weightKg]} />
       </Field>
-      <Button onClick={handleNext}>Tiếp tục</Button>
+      <OnboardingButtonGroup
+        onBack={() => setStep(1)}
+        onNext={handleNext}
+        isFirstStep
+      />
     </div>
   );
 };
