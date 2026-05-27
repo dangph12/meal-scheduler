@@ -13,7 +13,7 @@ import { useAuthContext } from '@/context/auth';
 import { useOnboarding } from '@/context/onboarding';
 import { api, ApiError } from '@/lib/api';
 
-export const Step6Account = () => {
+export const Step7Account = () => {
   const router = useRouter();
   const { setAccessToken } = useAuthContext();
 
@@ -26,7 +26,7 @@ export const Step6Account = () => {
   } = useFormContext();
   const { setStep } = useOnboarding();
 
-  const handleBack = () => setStep(5);
+  const handleBack = () => setStep(6);
 
   const handleFinish = async () => {
     const isValid = await trigger([

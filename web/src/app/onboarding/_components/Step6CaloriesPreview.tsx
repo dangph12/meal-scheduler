@@ -12,7 +12,7 @@ import { Slider } from '@/components/ui/slider';
 import { useOnboarding } from '@/context/onboarding';
 import { api, ApiError } from '@/lib/api';
 
-export const Step5CaloriesPreview = () => {
+export const Step6CaloriesPreview = () => {
   const { setStep } = useOnboarding();
   const { setValue, control } = useFormContext<Partial<OnboardRequest>>();
 
@@ -71,7 +71,7 @@ export const Step5CaloriesPreview = () => {
 
   const handleNext = () => {
     setValue('caloriesIntake', adjustedCalories);
-    setStep(6);
+    setStep(7);
   };
 
   return (
@@ -134,7 +134,7 @@ export const Step5CaloriesPreview = () => {
           <div className='hidden lg:block' />
           <div className='w-full max-w-lg mx-auto'>
             <OnboardingButtonGroup
-              onBack={() => setStep(4)}
+              onBack={() => setStep(5)}
               onNext={handleNext}
               isNextDisabled={loading || hasError}
             />

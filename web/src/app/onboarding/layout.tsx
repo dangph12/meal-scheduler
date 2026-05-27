@@ -1,7 +1,7 @@
 'use client';
 import { OnboardingProvider, useOnboarding } from '@/context/onboarding';
 
-const TOTAL_STEPS = 6;
+const TOTAL_STEPS = 7;
 
 const ProgressBar = () => {
   const { step } = useOnboarding();
