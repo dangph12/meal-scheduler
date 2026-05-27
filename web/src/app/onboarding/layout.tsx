@@ -8,7 +8,7 @@ const ProgressBar = () => {
   const progressPercentage = ((step - 1) / (TOTAL_STEPS - 1)) * 100;
 
   return (
-    <div className='mx-auto max-w-2xl px-4 pt-8 mb-6 w-full'>
+    <div className='mx-auto max-w-2xl px-6 pt-8 mb-4 w-full'>
       <div className='relative h-4 w-full'>
         <div className='absolute left-0 right-0 top-1/2 -translate-y-1/2 h-1 bg-muted rounded-full' />
         <div
@@ -55,7 +55,7 @@ export default function OnboardingLayout({
   return (
     <OnboardingProvider>
       <ProgressBar />
-      {children}
+      <main className='mx-auto px-4 py-6 md:py-10'>{children}</main>
     </OnboardingProvider>
   );
 }
