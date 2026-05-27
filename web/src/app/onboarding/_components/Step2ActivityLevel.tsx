@@ -36,8 +36,8 @@ export const Step2ActivityLevel = () => {
       </div>
 
       <div className='flex-1 min-h-0 overflow-y-auto pr-2'>
-        <div className='grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-12 items-center h-full'>
-          <div className='hidden lg:flex justify-end'>
+        <div className='grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-0 lg:gap-12 items-center h-full'>
+          <div className='hidden lg:flex justify-start'>
             <Activity size={240} strokeWidth={1} className='text-primary' />
           </div>
 
@@ -60,8 +60,8 @@ export const Step2ActivityLevel = () => {
         </div>
       </div>
 
-      <div className='flex-shrink-0 pt-4 mt-4 bg-background z-10'>
-        <div className='grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-12'>
+      <div className='flex-shrink-0 pt-6 mt-4 bg-background z-10'>
+        <div className='grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-0 lg:gap-12'>
           <div className='hidden lg:block' />
           <div className='w-full max-w-lg mx-auto'>
             <OnboardingButtonGroup
