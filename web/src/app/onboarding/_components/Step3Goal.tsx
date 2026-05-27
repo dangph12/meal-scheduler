@@ -32,7 +32,6 @@ export const Step3Goal = () => {
     targetWeightKg !== undefined &&
     Math.abs(targetWeightKg - weightKg) < 0.01;
 
-  // Reset rateOfChangeKgPerWeek if current value becomes disabled
   useEffect(() => {
     if (
       isTargetSameAsCurrent &&
@@ -68,19 +67,21 @@ export const Step3Goal = () => {
   };
 
   return (
-    <div className='space-y-6'>
-      <h3 className='text-3xl font-bold'>Mục tiêu</h3>
-      <p className='text-muted-foreground'>
-        Thiết lập mục tiêu cân nặng và tốc độ thay đổi mong muốn của bạn.
-      </p>
+    <div className='flex flex-col h-full max-w-6xl mx-auto px-4 pb-6 lg:pb-10 w-full'>
+      <div className='flex-shrink-0 space-y-2 mb-6'>
+        <h3 className='text-3xl font-bold'>Mục tiêu</h3>
+        <p className='text-muted-foreground'>
+          Thiết lập mục tiêu cân nặng và tốc độ thay đổi mong muốn của bạn.
+        </p>
+      </div>
 
-      <div className='grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-12 items-center'>
-        <div className='hidden lg:flex justify-end'>
-          <Target size={240} strokeWidth={1} className='text-primary' />
-        </div>
+      <div className='flex-1 min-h-0 overflow-y-auto pr-2'>
+        <div className='grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-12 items-center h-full'>
+          <div className='hidden lg:flex justify-end'>
+            <Target size={240} strokeWidth={1} className='text-primary' />
+          </div>
 
-        <div className='w-full max-w-lg mx-auto flex flex-col h-auto lg:h-[500px] px-2'>
-          <div className='space-y-2 flex-1'>
+          <div className='w-full max-w-lg mx-auto flex flex-col space-y-2'>
             <Field>
               <FieldLabel>
                 Cân nặng mục tiêu (kg)
@@ -146,7 +147,13 @@ export const Step3Goal = () => {
               error={errors.rateOfChangeKgPerWeek?.message as string}
             />
           </div>
-          <div className='pt-8 mt-auto'>
+        </div>
+      </div>
+
+      <div className='flex-shrink-0 pt-4 mt-4 bg-background z-10'>
+        <div className='grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-12'>
+          <div className='hidden lg:block' />
+          <div className='w-full max-w-lg mx-auto'>
             <OnboardingButtonGroup
               onBack={() => setStep(2)}
               onNext={handleNext}

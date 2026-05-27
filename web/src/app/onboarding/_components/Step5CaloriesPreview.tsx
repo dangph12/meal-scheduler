@@ -75,19 +75,21 @@ export const Step5CaloriesPreview = () => {
   };
 
   return (
-    <div className='space-y-6'>
-      <h3 className='text-3xl font-bold'>Lượng calo mục tiêu</h3>
-      <p className='text-muted-foreground'>
-        Điều chỉnh lượng calo phù hợp với mục tiêu của bạn.
-      </p>
+    <div className='flex flex-col h-full max-w-6xl mx-auto px-4 pb-6 lg:pb-10 w-full'>
+      <div className='flex-shrink-0 space-y-2 mb-6'>
+        <h3 className='text-3xl font-bold'>Lượng calo mục tiêu</h3>
+        <p className='text-muted-foreground'>
+          Điều chỉnh lượng calo phù hợp với mục tiêu của bạn.
+        </p>
+      </div>
 
-      <div className='grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-12 items-center'>
-        <div className='hidden lg:flex justify-end'>
-          <Flame size={240} strokeWidth={1} className='text-primary' />
-        </div>
+      <div className='flex-1 min-h-0 overflow-y-auto pr-2'>
+        <div className='grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-12 items-center h-full'>
+          <div className='hidden lg:flex justify-end'>
+            <Flame size={240} strokeWidth={1} className='text-primary' />
+          </div>
 
-        <div className='w-full max-w-lg mx-auto flex flex-col h-auto lg:h-[500px] px-2'>
-          <div className='space-y-4 flex-1'>
+          <div className='w-full max-w-lg mx-auto flex flex-col space-y-4'>
             {loading ? (
               <p className='text-muted-foreground'>Đang tính toán...</p>
             ) : (
@@ -124,7 +126,13 @@ export const Step5CaloriesPreview = () => {
               </>
             )}
           </div>
-          <div className='pt-8 mt-auto'>
+        </div>
+      </div>
+
+      <div className='flex-shrink-0 pt-4 mt-4 bg-background z-10'>
+        <div className='grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-12'>
+          <div className='hidden lg:block' />
+          <div className='w-full max-w-lg mx-auto'>
             <OnboardingButtonGroup
               onBack={() => setStep(4)}
               onNext={handleNext}

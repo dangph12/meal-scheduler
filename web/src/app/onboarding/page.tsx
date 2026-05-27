@@ -12,7 +12,7 @@ export default function OnboardingPage() {
   const { step } = useOnboarding();
 
   return (
-    <div>
+    <div className='h-full w-full'>
       {step === 1 && <Step1BasicInfo />}
       {step === 2 && <Step2ActivityLevel />}
       {step === 3 && <Step3Goal />}
