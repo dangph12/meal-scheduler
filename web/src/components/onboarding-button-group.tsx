@@ -7,7 +7,7 @@ interface OnboardingButtonGroupProps {
   onNext: () => void;
   isFirstStep?: boolean;
   isLastStep?: boolean;
-  isPending?: boolean;
+  isNextDisabled?: boolean;
 }
 
 export function OnboardingButtonGroup({
@@ -15,7 +15,7 @@ export function OnboardingButtonGroup({
   onNext,
   isFirstStep = false,
   isLastStep = false,
-  isPending = false
+  isNextDisabled = false
 }: OnboardingButtonGroupProps) {
   return (
     <div className='flex flex-col-reverse sm:flex-row sm:justify-between gap-3 pt-4'>
@@ -23,14 +23,14 @@ export function OnboardingButtonGroup({
         type='button'
         variant='outline'
         onClick={onBack}
-        disabled={isFirstStep || isPending}
+        disabled={isFirstStep}
         className={isFirstStep ? 'invisible' : ''}
       >
         <ChevronLeft className='w-4 h-4' />
         Quay lại
       </Button>
 
-      <Button type='button' onClick={onNext} disabled={isPending}>
+      <Button type='button' onClick={onNext} disabled={isNextDisabled}>
         {isLastStep ? 'Hoàn thành' : 'Tiếp theo'}
         {!isLastStep && <ChevronRight className='w-4 h-4' />}
       </Button>

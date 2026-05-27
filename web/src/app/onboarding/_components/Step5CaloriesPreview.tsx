@@ -17,6 +17,7 @@ export const Step5CaloriesPreview = () => {
   const { setValue, control } = useFormContext<Partial<OnboardRequest>>();
 
   const [loading, setLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
   const [suggestedCalories, setSuggestedCalories] = useState(0);
   const [tdee, setTdee] = useState(0);
   const [adjustedCalories, setAdjustedCalories] = useState(0);
@@ -29,6 +30,7 @@ export const Step5CaloriesPreview = () => {
   useEffect(() => {
     const fetchPreview = async () => {
       setLoading(true);
+      setHasError(false);
       try {
         const payload = {
           sex: profileData.sex,
@@ -53,6 +55,7 @@ export const Step5CaloriesPreview = () => {
           setAdjustedCalories(res.data.suggestedCaloriesIntake);
         }
       } catch (error) {
+        setHasError(true);
         let message = 'Không thể tính lượng calo. Vui lòng thử lại.';
         if (error instanceof ApiError) {
           message = error.message;
@@ -125,7 +128,7 @@ export const Step5CaloriesPreview = () => {
             <OnboardingButtonGroup
               onBack={() => setStep(4)}
               onNext={handleNext}
-              isPending={loading}
+              isNextDisabled={loading || hasError}
             />
           </div>
         </div>
