@@ -1,12 +1,12 @@
 'use client';
 import type { ApiResponseType } from '@app/shared/api-response';
 import { type OnboardResponse } from '@app/shared/dto/user';
+import { ShieldCheck } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useFormContext } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import { OnboardingButtonGroup } from '@/components/onboarding-button-group';
-import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { useAuthContext } from '@/context/auth';
@@ -64,33 +64,57 @@ export const Step6Account = () => {
   };
 
   return (
-    <div className='space-y-4'>
-      <h2>Tạo tài khoản</h2>
-      <Field>
-        <FieldLabel>Tên</FieldLabel>
-        <Input {...register('name')} />
-        <FieldError errors={[errors.name]} />
-      </Field>
-      <Field>
-        <FieldLabel>Email</FieldLabel>
-        <Input type='email' {...register('email')} />
-        <FieldError errors={[errors.email]} />
-      </Field>
-      <Field>
-        <FieldLabel>Mật khẩu</FieldLabel>
-        <Input type='password' {...register('password')} />
-        <FieldError errors={[errors.password]} />
-      </Field>
-      <Field>
-        <FieldLabel>Nhập lại mật khẩu</FieldLabel>
-        <Input type='password' {...register('confirmPassword')} />
-        <FieldError errors={[errors.confirmPassword]} />
-      </Field>
-      <OnboardingButtonGroup
-        onBack={handleBack}
-        onNext={handleFinish}
-        isLastStep
-      />
+    <div className='space-y-6'>
+      <h3 className='text-3xl font-bold'>Tạo tài khoản</h3>
+      <p className='text-muted-foreground'>
+        Hoàn tất đăng ký để bắt đầu hành trình dinh dưỡng của bạn.
+      </p>
+
+      <div className='grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-12 items-center'>
+        <div className='hidden lg:flex justify-end'>
+          <ShieldCheck size={240} strokeWidth={1} className='text-primary' />
+        </div>
+
+        <div className='w-full max-w-lg mx-auto flex flex-col h-auto lg:h-[500px] px-2'>
+          <div className='space-y-2 flex-1'>
+            <Field>
+              <FieldLabel>Tên</FieldLabel>
+              <Input {...register('name')} />
+              <div className='h-4'>
+                <FieldError errors={[errors.name]} />
+              </div>
+            </Field>
+            <Field>
+              <FieldLabel>Email</FieldLabel>
+              <Input type='email' {...register('email')} />
+              <div className='h-4'>
+                <FieldError errors={[errors.email]} />
+              </div>
+            </Field>
+            <Field>
+              <FieldLabel>Mật khẩu</FieldLabel>
+              <Input type='password' {...register('password')} />
+              <div className='h-4'>
+                <FieldError errors={[errors.password]} />
+              </div>
+            </Field>
+            <Field>
+              <FieldLabel>Nhập lại mật khẩu</FieldLabel>
+              <Input type='password' {...register('confirmPassword')} />
+              <div className='h-4'>
+                <FieldError errors={[errors.confirmPassword]} />
+              </div>
+            </Field>
+          </div>
+          <div className='pt-8 mt-auto'>
+            <OnboardingButtonGroup
+              onBack={handleBack}
+              onNext={handleFinish}
+              isLastStep
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

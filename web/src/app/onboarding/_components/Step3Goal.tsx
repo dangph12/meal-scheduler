@@ -1,10 +1,10 @@
 'use client';
 import { RateOfChangeKgPerWeek } from '@app/shared/constant/rate-of-change-kg-per-week';
+import { Target } from 'lucide-react';
 import { useEffect, useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { OnboardingButtonGroup } from '@/components/onboarding-button-group';
-import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { RadioList } from '@/components/ui/radio-list';
@@ -68,71 +68,92 @@ export const Step3Goal = () => {
   };
 
   return (
-    <div className='space-y-4'>
-      <h2>Mục tiêu</h2>
-      <Field>
-        <FieldLabel>
-          Cân nặng mục tiêu (kg)
-          {minTarget !== null && maxTarget !== null && (
-            <span className='text-sm text-muted-foreground ml-2'>
-              (cho phép: {minTarget.toFixed(1)}-{maxTarget.toFixed(1)} kg)
-            </span>
-          )}
-        </FieldLabel>
-        <Input
-          type='number'
-          {...register('targetWeightKg', {
-            valueAsNumber: true,
-            validate: value => {
-              if (
-                minTarget !== null &&
-                maxTarget !== null &&
-                (value < minTarget || value > maxTarget)
-              ) {
-                return `Cân nặng mục tiêu phải trong khoảng ${minTarget.toFixed(
-                  1
-                )}-${maxTarget.toFixed(1)} kg`;
-              }
-              return true;
-            }
-          })}
-        />
-        <FieldError errors={[errors.targetWeightKg]} />
-      </Field>
-      <RadioList
-        label='Tốc độ thay đổi'
-        options={[
-          {
-            label: '0 kg/tuần',
-            value: RateOfChangeKgPerWeek.Zero,
-            disabled: !isTargetSameAsCurrent
-          },
-          {
-            label: '0.25 kg/tuần',
-            value: RateOfChangeKgPerWeek.Quarter,
-            disabled: isTargetSameAsCurrent
-          },
-          {
-            label: '0.5 kg/tuần',
-            value: RateOfChangeKgPerWeek.Half,
-            disabled: isTargetSameAsCurrent
-          },
-          {
-            label: '0.75 kg/tuần',
-            value: RateOfChangeKgPerWeek.ThreeQuarter,
-            disabled: isTargetSameAsCurrent
-          },
-          {
-            label: '1 kg/tuần',
-            value: RateOfChangeKgPerWeek.One,
-            disabled: isTargetSameAsCurrent
-          }
-        ]}
-        value={rateOfChangeKgPerWeek}
-        onChange={val => setValue('rateOfChangeKgPerWeek', val)}
-        error={errors.rateOfChangeKgPerWeek?.message as string}
-      />
-      <OnboardingButtonGroup onBack={() => setStep(2)} onNext={handleNext} />
+    <div className='space-y-6'>
+      <h3 className='text-3xl font-bold'>Mục tiêu</h3>
+      <p className='text-muted-foreground'>
+        Thiết lập mục tiêu cân nặng và tốc độ thay đổi mong muốn của bạn.
+      </p>
+
+      <div className='grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-12 items-center'>
+        <div className='hidden lg:flex justify-end'>
+          <Target size={240} strokeWidth={1} className='text-primary' />
+        </div>
+
+        <div className='w-full max-w-lg mx-auto flex flex-col h-auto lg:h-[500px] px-2'>
+          <div className='space-y-2 flex-1'>
+            <Field>
+              <FieldLabel>
+                Cân nặng mục tiêu (kg)
+                {minTarget !== null && maxTarget !== null && (
+                  <span className='text-sm text-muted-foreground ml-2'>
+                    ({minTarget.toFixed(0)}-{maxTarget.toFixed(0)} kg)
+                  </span>
+                )}
+              </FieldLabel>
+              <Input
+                type='number'
+                {...register('targetWeightKg', {
+                  valueAsNumber: true,
+                  validate: value => {
+                    if (
+                      minTarget !== null &&
+                      maxTarget !== null &&
+                      (value < minTarget || value > maxTarget)
+                    ) {
+                      return `Mục tiêu trong khoảng ${minTarget.toFixed(
+                        1
+                      )}-${maxTarget.toFixed(1)} kg`;
+                    }
+                    return true;
+                  }
+                })}
+              />
+              <div className='h-4'>
+                <FieldError errors={[errors.targetWeightKg]} />
+              </div>
+            </Field>
+            <RadioList
+              label='Tốc độ thay đổi'
+              options={[
+                {
+                  label: '0 kg/tuần',
+                  value: RateOfChangeKgPerWeek.Zero,
+                  disabled: !isTargetSameAsCurrent
+                },
+                {
+                  label: '0.25 kg/tuần',
+                  value: RateOfChangeKgPerWeek.Quarter,
+                  disabled: isTargetSameAsCurrent
+                },
+                {
+                  label: '0.5 kg/tuần',
+                  value: RateOfChangeKgPerWeek.Half,
+                  disabled: isTargetSameAsCurrent
+                },
+                {
+                  label: '0.75 kg/tuần',
+                  value: RateOfChangeKgPerWeek.ThreeQuarter,
+                  disabled: isTargetSameAsCurrent
+                },
+                {
+                  label: '1 kg/tuần',
+                  value: RateOfChangeKgPerWeek.One,
+                  disabled: isTargetSameAsCurrent
+                }
+              ]}
+              value={rateOfChangeKgPerWeek}
+              onChange={val => setValue('rateOfChangeKgPerWeek', val)}
+              error={errors.rateOfChangeKgPerWeek?.message as string}
+            />
+          </div>
+          <div className='pt-8 mt-auto'>
+            <OnboardingButtonGroup
+              onBack={() => setStep(2)}
+              onNext={handleNext}
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
