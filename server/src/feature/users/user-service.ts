@@ -41,7 +41,6 @@ export const UserService = {
 
   async onboardUser(data: OnboardRequest, jwtSecret: string) {
     const { confirmPassword, ...userData } = data;
-    const hashedPassword = await PasswordUtils.hash(userData.password);
 
     const existingUser = await UserModel.findOne({ email: userData.email });
 
@@ -50,6 +49,8 @@ export const UserService = {
         message: 'Email đã tồn tại'
       });
     }
+
+    const hashedPassword = await PasswordUtils.hash(userData.password);
 
     const dob = new Date(userData.dob);
     const tdee = calculateTDEE({
