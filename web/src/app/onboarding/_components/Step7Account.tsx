@@ -48,7 +48,10 @@ export const Step7Account = () => {
         '/v1/users/onboard',
         control._formValues
       );
-      if (!res?.data?.accessToken) return;
+      if (!res?.data?.accessToken) {
+        toast.error('Phản hồi không hợp lệ, vui lòng thử lại.');
+        return;
+      }
 
       toast.success(res.message || 'Đăng ký thành công');
 

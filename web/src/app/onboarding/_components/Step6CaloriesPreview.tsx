@@ -49,11 +49,17 @@ export const Step6CaloriesPreview = () => {
           ApiResponseType<PreviewCaloriesIntakeResponse>
         >('/v1/users/onboard/preview', payload);
 
-        if (res?.data) {
-          setTdee(res.data.tdee);
-          setSuggestedCalories(res.data.suggestedCaloriesIntake);
-          setAdjustedCalories(res.data.suggestedCaloriesIntake);
+        if (!res?.data) {
+          setHasError(true);
+          toast.error(
+            res?.message || 'Không thể tính lượng calo. Vui lòng thử lại.'
+          );
+          return;
         }
+
+        setTdee(res.data.tdee);
+        setSuggestedCalories(res.data.suggestedCaloriesIntake);
+        setAdjustedCalories(res.data.suggestedCaloriesIntake);
       } catch (error) {
         setHasError(true);
         let message = 'Không thể tính lượng calo. Vui lòng thử lại.';
