@@ -1,4 +1,15 @@
 export enum Sex {
-  MALE = 'Nam',
-  FEMALE = 'Nữ'
+  Male = 'Nam',
+  Female = 'Nữ'
 }
+
+export const SexOptions = [
+  {
+    label: 'Nam',
+    value: Sex.Male
+  },
+  {
+    label: 'Nữ',
+    value: Sex.Female
+  }
+];

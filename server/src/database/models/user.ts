@@ -1,4 +1,4 @@
-import mongoose, { InferSchemaType, Schema } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import mongoosePaginate from 'mongoose-paginate-v2';
 
 const userSchema = new Schema(
@@ -6,6 +6,17 @@ const userSchema = new Schema(
     email: { type: String, required: true, unique: true },
     name: { type: String, required: true },
     password: { type: String, required: true },
+    sex: { type: String, required: true },
+    dob: { type: Date, required: true },
+    heightCm: { type: Number, required: true },
+    activityLevel: { type: Number, required: true },
+    exerciseFrequency: { type: Number, required: true },
+    targetWeightKg: { type: Number, required: true },
+    rateOfChangeKgPerWeek: { type: Number, required: true },
+    diet: { type: String, required: true },
+    proteinIntakeGPerKg: { type: Number, required: true },
+    tdee: { type: Number, required: true },
+    caloriesIntake: { type: Number, required: true },
     isActive: { type: Boolean, default: true }
   },
   {
@@ -15,6 +26,6 @@ const userSchema = new Schema(
 
 userSchema.plugin(mongoosePaginate);
 
-export type User = InferSchemaType<typeof userSchema>;
+export type User = mongoose.InferSchemaType<typeof userSchema>;
 
 export const UserModel = mongoose.model<User>('User', userSchema);

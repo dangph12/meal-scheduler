@@ -64,14 +64,14 @@ export function adjustTdee(logs: DailyLog[]): TdeeResult {
  * THE COACH: Goal-oriented calculation.
  * Takes the biologically verified TDEE and applies the user's specific weight goals.
  */
-export function adjustIntake(
+export function adjustCaloriesIntake(
   trueTdee: number,
   currentWeightKg: number,
   targetWeightKg: number,
   rateOfChangeKgPerWeek: number
 ): number {
   if (currentWeightKg <= 0) {
-    throw new Error('currentWeightKg must be positive');
+    throw new Error('Cân nặng hiện tại phải là số dương');
   }
 
   const weightChangePercent =
