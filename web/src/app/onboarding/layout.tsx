@@ -9,7 +9,14 @@ const ProgressBar = () => {
 
   return (
     <div className='mx-auto max-w-2xl px-6 pt-8 pb-4 w-full'>
-      <div className='relative h-4 w-full'>
+      <div
+        className='relative h-4 w-full'
+        role='progressbar'
+        aria-label='Thanh tiến trình'
+        aria-valuemin={1}
+        aria-valuemax={TOTAL_STEPS}
+        aria-valuenow={step}
+      >
         <div className='absolute left-0 right-0 top-1/2 -translate-y-1/2 h-1 bg-muted rounded-full' />
         <div
           className='absolute left-0 top-1/2 -translate-y-1/2 h-1 bg-primary rounded-full transition-all duration-500 ease-out'
