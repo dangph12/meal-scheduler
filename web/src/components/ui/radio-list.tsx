@@ -30,6 +30,7 @@ export function RadioList({
         {options.map(option => {
           const isSelected = value === option.value;
           const isDisabled = option.disabled;
+          const id = `${label}-${String(option.value)}`;
 
           return (
             <div
@@ -45,18 +46,34 @@ export function RadioList({
               )}
               onClick={() => !isDisabled && onChange(option.value)}
             >
-              <div
+              <input
+                type='radio'
+                id={id}
+                name={label}
+                value={String(option.value)}
+                checked={isSelected}
+                disabled={isDisabled}
+                onChange={() => onChange(option.value)}
+                className='sr-only'
+              />
+              <label
+                htmlFor={id}
                 className={cn(
-                  'h-4 w-4 rounded-full border flex items-center justify-center flex-shrink-0',
+                  'h-4 w-4 rounded-full border flex items-center justify-center flex-shrink-0 cursor-pointer',
                   isSelected ? 'border-primary' : 'border-muted-foreground'
                 )}
               >
                 {isSelected && (
                   <div className='h-2 w-2 rounded-full bg-primary' />
                 )}
-              </div>
+              </label>
               <div className='min-w-0 flex-1'>
-                <span className='font-medium'>{option.label}</span>
+                <label
+                  htmlFor={id}
+                  className={cn('font-medium', !isDisabled && 'cursor-pointer')}
+                >
+                  {option.label}
+                </label>
                 {option.description && (
                   <p className='text-sm text-muted-foreground'>
                     {option.description}
