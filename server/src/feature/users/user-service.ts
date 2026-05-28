@@ -2,6 +2,7 @@ import { Sex } from '@app/shared/constant/sex';
 import { OnboardRequest, UserProfileRequest } from '@app/shared/dto/user';
 import { HTTPException } from 'hono/http-exception';
 import { sign } from 'hono/jwt';
+import mongoose from 'mongoose';
 
 import { UserModel } from '@/database/models/user';
 import { WeightRecordModel } from '@/database/models/weight-record';
@@ -69,27 +70,43 @@ export const UserService = {
       rateOfChangeKgPerWeek: Number(userData.rateOfChangeKgPerWeek)
     });
 
-    const user = await UserModel.create({
-      email: userData.email,
-      name: userData.name,
-      password: hashedPassword,
-      sex: userData.sex,
-      dob,
-      heightCm: userData.heightCm,
-      activityLevel: Number(userData.activityLevel),
-      exerciseFrequency: Number(userData.exerciseFrequency),
-      targetWeightKg: userData.targetWeightKg,
-      rateOfChangeKgPerWeek: Number(userData.rateOfChangeKgPerWeek),
-      diet: userData.diet,
-      proteinIntakeGPerKg: userData.proteinIntakeGPerKg,
-      tdee,
-      caloriesIntake
-    });
+    const session = await mongoose.startSession();
 
-    await WeightRecordModel.create({
-      userId: user._id,
-      weightKg: userData.weightKg
-    });
+    session.startTransaction();
+
+    let user: any;
+    try {
+      user = await UserModel.create({
+        email: userData.email,
+        name: userData.name,
+        password: hashedPassword,
+        sex: userData.sex,
+        dob,
+        heightCm: userData.heightCm,
+        activityLevel: Number(userData.activityLevel),
+        exerciseFrequency: Number(userData.exerciseFrequency),
+        targetWeightKg: userData.targetWeightKg,
+        rateOfChangeKgPerWeek: Number(userData.rateOfChangeKgPerWeek),
+        diet: userData.diet,
+        proteinIntakeGPerKg: userData.proteinIntakeGPerKg,
+        tdee,
+        caloriesIntake
+      });
+
+      await WeightRecordModel.create({
+        userId: user._id,
+        weightKg: userData.weightKg
+      });
+
+      await session.commitTransaction();
+    } catch (error) {
+      await session.abortTransaction();
+      throw new HTTPException(400, {
+        message: 'Đăng ký thất bại. Vui lòng thử lại.'
+      });
+    } finally {
+      await session.endSession();
+    }
 
     const expiredInMinutes = 15;
 
