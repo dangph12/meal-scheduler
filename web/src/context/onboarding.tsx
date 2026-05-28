@@ -15,7 +15,7 @@ import {
   useRef,
   useState
 } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FieldPath, FormProvider, useForm } from 'react-hook-form';
 
 const defaultValues: Partial<OnboardRequest> = {
   sex: Sex.Male,
@@ -59,7 +59,7 @@ export const OnboardingProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const subscription = form.watch((_, { name }) => {
       if (name) {
-        clearErrorsRef.current(name as any);
+        clearErrorsRef.current(name as FieldPath<OnboardRequest>);
       }
     });
     return () => subscription.unsubscribe();
