@@ -1,4 +1,4 @@
-import mongoose, { InferSchemaType, Schema } from 'mongoose';
+import mongoose, { InferSchemaType, PaginateModel, Schema } from 'mongoose';
 import mongoosePaginate from 'mongoose-paginate-v2';
 
 const weightRecordSchema = new Schema(
@@ -19,11 +19,12 @@ const weightRecordSchema = new Schema(
   }
 );
 
+weightRecordSchema.index({ userId: 1, createdAt: -1 });
 weightRecordSchema.plugin(mongoosePaginate);
 
 export type WeightRecord = InferSchemaType<typeof weightRecordSchema>;
 
-export const WeightRecordModel = mongoose.model<WeightRecord>(
-  'WeightRecord',
-  weightRecordSchema
-);
+export const WeightRecordModel = mongoose.model<
+  WeightRecord,
+  PaginateModel<WeightRecord>
+>('WeightRecord', weightRecordSchema);
