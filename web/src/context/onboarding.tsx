@@ -43,6 +43,9 @@ const OnboardingContext = createContext<OnboardingContextValue | undefined>(
   undefined
 );
 
+const MIN_STEP = 1;
+const MAX_STEP = 7;
+
 export const OnboardingProvider = ({ children }: { children: ReactNode }) => {
   const [step, setStepState] = useState(1);
 
@@ -66,7 +69,7 @@ export const OnboardingProvider = ({ children }: { children: ReactNode }) => {
   }, [form.watch]);
 
   const setStep = (newStep: number) => {
-    setStepState(newStep);
+    setStepState(Math.min(MAX_STEP, Math.max(MIN_STEP, newStep)));
   };
 
   return (
