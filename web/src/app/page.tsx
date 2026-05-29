@@ -14,30 +14,6 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <div className='min-h-screen bg-background text-foreground'>
-      <a
-        href='#main-content'
-        className='sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-md'
-      >
-        Skip to main content
-      </a>
-
-      <header className='fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border dark:bg-background/60'>
-        <div className='max-w-6xl mx-auto px-6 py-4 flex justify-between items-center'>
-          <div className='font-bold text-2xl text-primary'>EatDee</div>
-          <nav className='flex items-center gap-6'>
-            <Link
-              href='/login'
-              className='text-sm text-muted-foreground hover:text-foreground transition-colors'
-            >
-              Đăng nhập
-            </Link>
-            <Button asChild>
-              <Link href='/onboarding'>Bắt đầu ngay</Link>
-            </Button>
-          </nav>
-        </div>
-      </header>
-
       <main id='main-content'>
         {/* Hero */}
         <section className='relative min-h-screen'>
@@ -50,7 +26,7 @@ export default function Home() {
               priority
               sizes='100vw'
             />
-            <div className='absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/20 dark:from-foreground dark:via-foreground/80 dark:to-foreground/30' />
+            <div className='absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/30 dark:from-foreground dark:via-foreground/80 dark:to-foreground/30' />
           </div>
           <div className='relative max-w-6xl mx-auto px-6 pt-32 pb-24 min-h-screen flex flex-col justify-end'>
             <h1 className='text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1] tracking-tight mb-6 max-w-3xl'>
@@ -82,7 +58,7 @@ export default function Home() {
         </section>
 
         {/* Features */}
-        <section className='py-24 lg:py-32'>
+        <section id='features' className='py-24 lg:py-32'>
           <div className='max-w-6xl mx-auto px-6 space-y-20 lg:space-y-28'>
             {/* Feature 1 */}
             <div className='grid lg:grid-cols-2 gap-12 lg:gap-20 items-center'>

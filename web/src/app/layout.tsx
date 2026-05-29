@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Inter } from 'next/font/google';
 import { ThemeProvider } from 'next-themes';
 
+import { Navbar } from '@/components/navbar';
 import { Toaster } from '@/components/ui/sonner';
 import { AuthProvider } from '@/context/auth';
 import { cn } from '@/lib/shadcn';
@@ -51,6 +52,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AuthProvider>
+            <Navbar />
             {children}
             <Toaster />
           </AuthProvider>
