@@ -1,11 +1,6 @@
-import {
-  ArrowRight,
-  Calendar,
-  Check,
-  TrendingUp,
-  UtensilsCrossed
-} from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
@@ -26,9 +21,8 @@ export default function Home() {
         Skip to main content
       </a>
 
-      {/* Header */}
-      <header className='fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border'>
-        <div className='max-w-5xl mx-auto px-6 py-4 flex justify-between items-center'>
+      <header className='fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border dark:bg-background/60'>
+        <div className='max-w-6xl mx-auto px-6 py-4 flex justify-between items-center'>
           <div className='font-bold text-2xl text-primary'>EatDee</div>
           <nav className='flex items-center gap-6'>
             <Link
@@ -45,22 +39,27 @@ export default function Home() {
       </header>
 
       <main id='main-content'>
-        {/* Hero — Full-width image + overlaid text */}
+        {/* Hero */}
         <section className='relative min-h-screen'>
           <div className='absolute inset-0'>
-            <img
+            <Image
               src='https://images.unsplash.com/photo-1559314809-0d155014e29e?w=1800&q=85'
-              alt='Vietnamese food spread'
-              className='w-full h-full object-cover'
+              alt='Một bàn ăn Việt Nam với nhiều món ăn truyền thống'
+              fill
+              className='object-cover'
+              priority
+              sizes='100vw'
             />
-            <div className='absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/30' />
+            <div className='absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/20 dark:from-foreground dark:via-foreground/80 dark:to-foreground/30' />
           </div>
-          <div className='relative max-w-5xl mx-auto px-6 pt-32 pb-24 min-h-screen flex flex-col justify-end'>
-            <h1 className='text-5xl sm:text-6xl lg:text-7xl font-bold leading-[0.95] tracking-tight mb-6 max-w-2xl'>
-              Lên kế hoạch <span className='text-primary'>bữa ăn</span> thông
-              minh
+          <div className='relative max-w-6xl mx-auto px-6 pt-32 pb-24 min-h-screen flex flex-col justify-end'>
+            <h1 className='text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1] tracking-tight mb-6 max-w-3xl'>
+              Lên kế hoạch{' '}
+              <span className=' whitespace-nowrap'>
+                <span className='text-primary'>bữa ăn</span> thông minh
+              </span>
             </h1>
-            <p className='text-xl text-muted-foreground mb-10 max-w-lg leading-relaxed'>
+            <p className='text-lg sm:text-xl text-muted-foreground mb-10 max-w-lg leading-relaxed'>
               Công thức Việt Nam. Theo dõi cân nặng. Nhận gợi ý calories phù hợp
               với mục tiêu của bạn.
             </p>
@@ -73,7 +72,7 @@ export default function Home() {
               <Button
                 variant='outline'
                 size='lg'
-                className='text-base border-foreground/20 bg-background/10 backdrop-blur hover:bg-background/20'
+                className='text-base border-foreground/20 bg-background/10 backdrop-blur hover:bg-background/20 dark:border-background/20 dark:bg-foreground/10'
                 asChild
               >
                 <Link href='/login'>Đăng nhập</Link>
@@ -82,26 +81,28 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Features — Alternating magazine-spread */}
-        <section className='py-32 lg:py-48'>
-          <div className='max-w-6xl mx-auto px-6 space-y-32 lg:space-y-48'>
+        {/* Features */}
+        <section className='py-24 lg:py-32'>
+          <div className='max-w-6xl mx-auto px-6 space-y-20 lg:space-y-28'>
             {/* Feature 1 */}
-            <div className='grid lg:grid-cols-2 gap-16 lg:gap-24 items-center'>
-              <div className='aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl'>
-                <img
+            <div className='grid lg:grid-cols-2 gap-12 lg:gap-20 items-center'>
+              <div className='relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg'>
+                <Image
                   src='https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=800&q=80'
-                  alt='Food'
-                  className='w-full h-full object-cover'
+                  alt='Bát phở bò với thịt bò tái, hành tây và rau mầm'
+                  fill
+                  className='object-cover'
+                  sizes='(max-width: 1024px) 100vw, 50vw'
                 />
               </div>
-              <div className='relative pl-8 lg:pl-12'>
-                <div className='absolute left-0 top-0 bottom-0 w-1.5 bg-primary rounded-full' />
-                <h2 className='text-4xl lg:text-5xl font-bold mb-8 leading-tight'>
+              <div className='relative pl-6 lg:pl-10'>
+                <div className='absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-full' />
+                <h2 className='text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 leading-tight text-wrap:balance'>
                   Cơ sở dữ liệu
                   <br />
                   món ăn Việt
                 </h2>
-                <p className='text-xl text-muted-foreground leading-relaxed'>
+                <p className='text-base sm:text-lg text-muted-foreground leading-relaxed'>
                   Khám phá hơn 1000+ công thức nấu ăn truyền thống và hiện đại.
                   Từ phở bò đến các món healthiest.
                 </p>
@@ -109,45 +110,49 @@ export default function Home() {
             </div>
 
             {/* Feature 2 */}
-            <div className='grid lg:grid-cols-2 gap-16 lg:gap-24 items-center'>
-              <div className='relative pl-8 lg:pl-0 lg:pr-12 lg:order-2'>
-                <div className='absolute right-0 top-0 bottom-0 w-1.5 bg-accent rounded-full' />
-                <h2 className='text-4xl lg:text-5xl font-bold mb-8 leading-tight'>
+            <div className='grid lg:grid-cols-2 gap-12 lg:gap-20 items-center'>
+              <div className='relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg order-1'>
+                <Image
+                  src='https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800&q=80'
+                  alt='Sổ tay kế hoạch bữa ăn với danh sách thực phẩm'
+                  fill
+                  className='object-cover'
+                  sizes='(max-width: 1024px) 100vw, 50vw'
+                />
+              </div>
+              <div className='relative pl-6 lg:pl-10 order-2'>
+                <div className='absolute left-0 top-0 bottom-0 w-1 bg-accent rounded-full' />
+                <h2 className='text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 leading-tight text-wrap:balance'>
                   Lập kế hoạch
                   <br />
                   bữa ăn
                 </h2>
-                <p className='text-xl text-muted-foreground leading-relaxed'>
+                <p className='text-base sm:text-lg text-muted-foreground leading-relaxed'>
                   Tự động tạo thực đơn hàng ngày dựa trên mục tiêu calories và
                   sở thích của bạn.
                 </p>
               </div>
-              <div className='aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl lg:order-1'>
-                <img
-                  src='https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800&q=80'
-                  alt='Planning'
-                  className='w-full h-full object-cover'
-                />
-              </div>
             </div>
 
             {/* Feature 3 */}
-            <div className='grid lg:grid-cols-2 gap-16 lg:gap-24 items-center'>
-              <div className='aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl'>
-                <img
+            <div className='grid lg:grid-cols-2 gap-12 lg:gap-20 items-center'>
+              <div className='relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg'>
+                <Image
                   src='https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80'
-                  alt='Tracking'
-                  className='w-full h-full object-cover'
+                  alt='Biểu đồ theo dõi cân nặng với đường xu hướng'
+                  fill
+                  className='object-cover'
+                  sizes='(max-width: 1024px) 100vw, 50vw'
                 />
               </div>
-              <div className='relative pl-8 lg:pl-12'>
-                <div className='absolute left-0 top-0 bottom-0 w-1.5 bg-primary rounded-full' />
-                <h2 className='text-4xl lg:text-5xl font-bold mb-8 leading-tight'>
+              <div className='relative pl-6 lg:pl-10'>
+                <div className='absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-full' />
+                <h2 className='text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 leading-tight text-wrap:balance'>
                   Theo dõi
                   <br />
                   cân nặng
                 </h2>
-                <p className='text-xl text-muted-foreground leading-relaxed'>
+                <p className='text-base sm:text-lg text-muted-foreground leading-relaxed'>
                   Cập nhật cân nặng định kỳ để nhận gợi ý calories phù hợp với
                   tiến trình của bạn.
                 </p>
@@ -156,21 +161,23 @@ export default function Home() {
           </div>
         </section>
 
-        {/* CTA — Full-width background image with overlay */}
-        <section className='relative py-32 lg:py-40 overflow-hidden'>
+        {/* CTA */}
+        <section className='relative py-24 lg:py-32 overflow-hidden'>
           <div className='absolute inset-0'>
-            <img
+            <Image
               src='https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1800&q=80'
-              alt='Vietnamese food'
-              className='w-full h-full object-cover'
+              alt='Đồ ăn Việt Nam được bày trí đẹp mắt'
+              fill
+              className='object-cover'
+              sizes='100vw'
             />
-            <div className='absolute inset-0 bg-foreground/80' />
+            <div className='absolute inset-0 bg-foreground/85 dark:bg-foreground/90' />
           </div>
           <div className='relative max-w-4xl mx-auto px-6 text-center text-background'>
-            <h2 className='text-4xl lg:text-6xl font-bold mb-6 leading-tight'>
+            <h2 className='text-3xl lg:text-5xl font-bold mb-6 leading-tight text-wrap:balance'>
               Sẵn sàng bắt đầu?
             </h2>
-            <p className='text-xl opacity-80 mb-10 max-w-2xl mx-auto'>
+            <p className='text-lg sm:text-xl opacity-90 mb-10 max-w-2xl mx-auto'>
               Hãy trải nghiệm cách lập kế hoạch bữa ăn thông minh với ẩm thực
               Việt Nam
             </p>
@@ -187,9 +194,8 @@ export default function Home() {
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className='border-t border-border py-12'>
-        <div className='max-w-5xl mx-auto px-6'>
+      <footer className='border-t border-border py-12 dark:border-border'>
+        <div className='max-w-6xl mx-auto px-6'>
           <div className='flex flex-col md:flex-row justify-between items-center gap-6'>
             <div className='font-bold text-xl text-primary'>EatDee</div>
             <nav className='flex gap-6'>
