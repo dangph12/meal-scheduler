@@ -52,7 +52,9 @@ export function Navbar() {
           <Button
             variant='ghost'
             size='icon'
-            aria-label='Mở menu'
+            aria-label={mobileOpen ? 'Đóng menu' : 'Mở menu'}
+            aria-expanded={mobileOpen}
+            aria-controls='mobile-nav-menu'
             onClick={() => setMobileOpen(!mobileOpen)}
           >
             {mobileOpen ? (

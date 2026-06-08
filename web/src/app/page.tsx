@@ -73,7 +73,7 @@ export default function Home() {
               </div>
               <div className='relative pl-6 lg:pl-10'>
                 <div className='absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-full' />
-                <h2 className='text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 leading-tight text-wrap:balance'>
+                <h2 className='text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 leading-tight text-balance'>
                   Cơ sở dữ liệu
                   <br />
                   món ăn Việt

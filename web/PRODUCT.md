@@ -1,12 +1,9 @@
 # Product
 
-## Register
-
-product
-
 ## Users
 
 Vietnamese health-conscious individuals who want to:
+
 - Track their weight over time
 - Get personalized calorie recommendations based on weight trends
 - Plan meals using authentic Vietnamese recipes
@@ -37,7 +34,7 @@ Core value: "Adaptive meal planning + Vietnamese cuisine identity"
 ## Design Principles
 
 1. **Utility first** - Every UI element serves a functional purpose
-2. ** Vietnamese identity through content, not decoration** - The cuisine is the feature, not just a visual theme
+2. **Vietnamese identity through content, not decoration** - The cuisine is the feature, not just a visual theme
 3. **Adaptive intelligence** - Weight tracking should feel smart, not just data entry
 4. **Warm clarity** - Soft, readable, no harsh contrasts or shouting
 5. **Progressive simplicity** - Features unfold as user engages, not overwhelming at first

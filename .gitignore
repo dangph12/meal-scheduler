@@ -4,6 +4,5 @@ node_modules
 .idea
 .yarn
 web/skills-lock.json
-/web/.agents
-web/.impeccable/live/config.json
-/web/.impeccable
+web/.agents
+web/.impeccable
