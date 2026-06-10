@@ -1,7 +1,7 @@
 import './globals.css';
 
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono, Inter } from 'next/font/google';
+import { Be_Vietnam_Pro, Manrope } from 'next/font/google';
 import { ThemeProvider } from 'next-themes';
 
 import { Navbar } from '@/components/navbar';
@@ -9,16 +9,15 @@ import { Toaster } from '@/components/ui/sonner';
 import { AuthProvider } from '@/context/auth';
 import { cn } from '@/lib/shadcn';
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
-
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin']
+const beVietnamPro = Be_Vietnam_Pro({
+  subsets: ['latin', 'vietnamese'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-be-vietnam-pro'
 });
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin']
+const manrope = Manrope({
+  subsets: ['latin', 'vietnamese'],
+  variable: '--font-manrope'
 });
 
 export const metadata: Metadata = {
@@ -38,9 +37,8 @@ export default function RootLayout({
       className={cn(
         'h-full',
         'antialiased',
-        geistSans.variable,
-        geistMono.variable,
-        inter.variable
+        beVietnamPro.variable,
+        manrope.variable
       )}
     >
       <body className='min-h-full flex flex-col'>
