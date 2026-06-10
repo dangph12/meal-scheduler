@@ -1,21 +1,18 @@
+'use client';
+
 import { ArrowRight } from 'lucide-react';
-import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
+import { useAuthContext } from '@/context/auth';
 
-export const metadata: Metadata = {
-  title: 'EatDee - Lập kế hoạch bữa ăn Việt Nam',
-  description:
-    'Ứng dụng lập kế hoạch bữa ăn và theo dõi cân nặng với công thức Việt Nam'
-};
+import { ScheduleDashboard } from './(home)/_components/ScheduleDashboard';
 
-export default function Home() {
+function LandingPage() {
   return (
     <div className='min-h-screen bg-background text-foreground'>
       <main id='main-content'>
-        {/* Hero */}
         <section className='relative min-h-screen'>
           <div className='absolute inset-0'>
             <Image
@@ -29,7 +26,7 @@ export default function Home() {
             <div className='absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/30 dark:from-foreground dark:via-foreground/80 dark:to-foreground/30' />
           </div>
           <div className='relative max-w-6xl mx-auto px-6 pt-32 pb-24 min-h-screen flex flex-col justify-end'>
-            <h1 className='text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1] tracking-tight mb-6 max-w-3xl'>
+            <h1 className='text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1] tracking-tight mb-6 max-w-3xl font-heading'>
               Lên kế hoạch{' '}
               <span className=' whitespace-nowrap'>
                 <span className='text-primary'>bữa ăn</span> thông minh
@@ -57,23 +54,21 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Features */}
-        <section id='features' className='py-24 lg:py-32'>
-          <div className='max-w-6xl mx-auto px-6 space-y-20 lg:space-y-28'>
-            {/* Feature 1 */}
+        <section id='features' className='py-24 lg:py-32 px-6'>
+          <div className='max-w-6xl mx-auto space-y-20 lg:space-y-28'>
             <div className='grid lg:grid-cols-2 gap-12 lg:gap-20 items-center'>
-              <div className='relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg'>
+              <div className='relative aspect-[4/3] rounded-2xl shadow-lg'>
                 <Image
                   src='https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=800&q=80'
                   alt='Bát phở bò với thịt bò tái, hành tây và rau mầm'
                   fill
-                  className='object-cover'
+                  className='object-cover rounded-2xl'
                   sizes='(max-width: 1024px) 100vw, 50vw'
                 />
               </div>
               <div className='relative pl-6 lg:pl-10'>
                 <div className='absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-full' />
-                <h2 className='text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 leading-tight text-balance'>
+                <h2 className='text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 leading-tight text-balance font-heading'>
                   Cơ sở dữ liệu
                   <br />
                   món ăn Việt
@@ -85,20 +80,19 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Feature 2 */}
             <div className='grid lg:grid-cols-2 gap-12 lg:gap-20 items-center'>
-              <div className='relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg order-1'>
+              <div className='relative aspect-[4/3] rounded-2xl shadow-lg order-1'>
                 <Image
                   src='https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800&q=80'
                   alt='Sổ tay kế hoạch bữa ăn với danh sách thực phẩm'
                   fill
-                  className='object-cover'
+                  className='object-cover rounded-2xl'
                   sizes='(max-width: 1024px) 100vw, 50vw'
                 />
               </div>
               <div className='relative pl-6 lg:pl-10 order-2'>
                 <div className='absolute left-0 top-0 bottom-0 w-1 bg-accent rounded-full' />
-                <h2 className='text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 leading-tight text-wrap:balance'>
+                <h2 className='text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 leading-tight text-balance font-heading'>
                   Lập kế hoạch
                   <br />
                   bữa ăn
@@ -110,20 +104,19 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Feature 3 */}
             <div className='grid lg:grid-cols-2 gap-12 lg:gap-20 items-center'>
-              <div className='relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg'>
+              <div className='relative aspect-[4/3] rounded-2xl shadow-lg'>
                 <Image
                   src='https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80'
                   alt='Biểu đồ theo dõi cân nặng với đường xu hướng'
                   fill
-                  className='object-cover'
+                  className='object-cover rounded-2xl'
                   sizes='(max-width: 1024px) 100vw, 50vw'
                 />
               </div>
               <div className='relative pl-6 lg:pl-10'>
                 <div className='absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-full' />
-                <h2 className='text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 leading-tight text-wrap:balance'>
+                <h2 className='text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 leading-tight text-wrap:balance font-heading'>
                   Theo dõi
                   <br />
                   cân nặng
@@ -137,8 +130,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* CTA */}
-        <section className='relative py-24 lg:py-32 overflow-hidden'>
+        <section className='relative py-24 lg:py-32'>
           <div className='absolute inset-0'>
             <Image
               src='https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1800&q=80'
@@ -150,7 +142,7 @@ export default function Home() {
             <div className='absolute inset-0 bg-foreground/85 dark:bg-foreground/90' />
           </div>
           <div className='relative max-w-4xl mx-auto px-6 text-center text-background'>
-            <h2 className='text-3xl lg:text-5xl font-bold mb-6 leading-tight text-wrap:balance'>
+            <h2 className='text-3xl lg:text-5xl font-bold mb-6 leading-tight text-wrap:balance font-heading'>
               Sẵn sàng bắt đầu?
             </h2>
             <p className='text-lg sm:text-xl opacity-90 mb-10 max-w-2xl mx-auto'>
@@ -170,8 +162,8 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className='border-t border-border py-12 dark:border-border'>
-        <div className='max-w-6xl mx-auto px-6'>
+      <footer className='border-t border-border py-12 dark:border-border px-6'>
+        <div className='max-w-6xl mx-auto'>
           <div className='flex flex-col md:flex-row justify-between items-center gap-6'>
             <div className='font-bold text-xl text-primary'>EatDee</div>
             <nav className='flex gap-6'>
@@ -194,4 +186,14 @@ export default function Home() {
       </footer>
     </div>
   );
+}
+
+export default function Home() {
+  const { accessToken } = useAuthContext();
+
+  if (accessToken) {
+    return <ScheduleDashboard />;
+  }
+
+  return <LandingPage />;
 }

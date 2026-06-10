@@ -3,6 +3,3 @@ node_modules
 .vscode
 .idea
 .yarn
-web/skills-lock.json
-web/.agents
-web/.impeccable
