@@ -1,21 +1,18 @@
+'use client';
+
 import { ArrowRight } from 'lucide-react';
-import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
+import { useAuthContext } from '@/context/auth';
 
-export const metadata: Metadata = {
-  title: 'EatDee - Lập kế hoạch bữa ăn Việt Nam',
-  description:
-    'Ứng dụng lập kế hoạch bữa ăn và theo dõi cân nặng với công thức Việt Nam'
-};
+import { ScheduleDashboard } from './(home)/_components/ScheduleDashboard';
 
-export default function Home() {
+function LandingPage() {
   return (
     <div className='min-h-screen bg-background text-foreground'>
       <main id='main-content'>
-        {/* Hero */}
         <section className='relative min-h-screen'>
           <div className='absolute inset-0'>
             <Image
@@ -57,10 +54,8 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Features */}
         <section id='features' className='py-24 lg:py-32'>
           <div className='max-w-6xl mx-auto px-6 space-y-20 lg:space-y-28'>
-            {/* Feature 1 */}
             <div className='grid lg:grid-cols-2 gap-12 lg:gap-20 items-center'>
               <div className='relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg'>
                 <Image
@@ -85,7 +80,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Feature 2 */}
             <div className='grid lg:grid-cols-2 gap-12 lg:gap-20 items-center'>
               <div className='relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg order-1'>
                 <Image
@@ -110,7 +104,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Feature 3 */}
             <div className='grid lg:grid-cols-2 gap-12 lg:gap-20 items-center'>
               <div className='relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg'>
                 <Image
@@ -137,7 +130,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* CTA */}
         <section className='relative py-24 lg:py-32 overflow-hidden'>
           <div className='absolute inset-0'>
             <Image
@@ -194,4 +186,14 @@ export default function Home() {
       </footer>
     </div>
   );
+}
+
+export default function Home() {
+  const { accessToken } = useAuthContext();
+
+  if (accessToken) {
+    return <ScheduleDashboard />;
+  }
+
+  return <LandingPage />;
 }

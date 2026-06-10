@@ -53,7 +53,7 @@ export default function RootLayout({
         >
           <AuthProvider>
             <Navbar />
-            {children}
+            <main className='flex-1 pt-16'>{children}</main>
             <Toaster />
           </AuthProvider>
         </ThemeProvider>

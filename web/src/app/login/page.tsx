@@ -68,55 +68,57 @@ export default function Page() {
   }
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className='flex flex-col items-center justify-center gap-4'
-    >
-      <FieldSet className='w-full max-w-xs'>
-        <FieldGroup>
-          <Controller
-            name='email'
-            control={control}
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor='email'>Email</FieldLabel>
-                <Input
-                  {...field}
-                  id='email'
-                  type='text'
-                  placeholder='alice@mail.com'
-                  aria-invalid={fieldState.invalid}
-                />
-                {fieldState.invalid && (
-                  <FieldError errors={[fieldState.error]} />
-                )}
-              </Field>
-            )}
-          />
-          <Controller
-            name='password'
-            control={control}
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor='password'>Password</FieldLabel>
-                <Input
-                  {...field}
-                  id='password'
-                  type='password'
-                  placeholder='••••••••'
-                  aria-invalid={fieldState.invalid}
-                />
-                {fieldState.invalid && (
-                  <FieldError errors={[fieldState.error]} />
-                )}
-              </Field>
-            )}
-          />
-        </FieldGroup>
-        <Button type='submit' disabled={isSubmitting}>
-          {isSubmitting ? 'Logging in…' : 'Login'}
-        </Button>
-      </FieldSet>
-    </form>
+    <div className='min-h-[calc(100vh-4rem)] flex items-center justify-center'>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className='flex flex-col items-center gap-4 w-full max-w-xs px-4'
+      >
+        <FieldSet className='w-full max-w-xs'>
+          <FieldGroup>
+            <Controller
+              name='email'
+              control={control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor='email'>Email</FieldLabel>
+                  <Input
+                    {...field}
+                    id='email'
+                    type='text'
+                    placeholder='alice@mail.com'
+                    aria-invalid={fieldState.invalid}
+                  />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+            <Controller
+              name='password'
+              control={control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor='password'>Password</FieldLabel>
+                  <Input
+                    {...field}
+                    id='password'
+                    type='password'
+                    placeholder='••••••••'
+                    aria-invalid={fieldState.invalid}
+                  />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+          </FieldGroup>
+          <Button type='submit' disabled={isSubmitting}>
+            {isSubmitting ? 'Logging in…' : 'Login'}
+          </Button>
+        </FieldSet>
+      </form>
+    </div>
   );
 }
