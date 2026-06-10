@@ -1,6 +1,7 @@
 'use client';
 
 import { X } from 'lucide-react';
+import Image from 'next/image';
 
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/shadcn';
@@ -31,10 +32,12 @@ function MealCard({ meal, onRemove, className }: MealCardProps) {
     >
       <div className='relative size-16 flex-shrink-0 overflow-hidden rounded-md border border-border p-1'>
         {meal.imageUrl ? (
-          <img
+          <Image
             src={meal.imageUrl}
             alt={meal.name}
             className='size-full object-cover rounded-sm'
+            fill
+            sizes='64px'
           />
         ) : (
           <div className='size-full flex items-center justify-center bg-muted text-muted-foreground text-xs'>

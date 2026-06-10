@@ -3,7 +3,6 @@
 import { Plus } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/shadcn';
 
 import { type Meal, MealCard, MealCardSkeleton } from './MealCard';

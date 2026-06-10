@@ -50,7 +50,7 @@ export default function RootLayout({
         >
           <AuthProvider>
             <Navbar />
-            <main className='flex-1 pt-16'>{children}</main>
+            <div className='flex-1 pt-16'>{children}</div>
             <Toaster />
           </AuthProvider>
         </ThemeProvider>

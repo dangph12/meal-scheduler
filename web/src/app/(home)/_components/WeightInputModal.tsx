@@ -43,8 +43,11 @@ function WeightInputModal({ trigger, onSubmit }: WeightInputModalProps) {
         </DialogHeader>
         <form onSubmit={handleSubmit(onFormSubmit)} className='space-y-4'>
           <div className='space-y-2'>
-            <label className='text-sm font-medium'>Current weight (kg)</label>
+            <label htmlFor='weight' className='text-sm font-medium'>
+              Current weight (kg)
+            </label>
             <Input
+              id='weight'
               type='number'
               step='0.1'
               placeholder='70.0'

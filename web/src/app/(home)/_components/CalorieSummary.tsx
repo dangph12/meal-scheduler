@@ -114,11 +114,7 @@ function CalorieSummary({
                 {protein}g / {proteinGoal}g
               </span>
             </div>
-            <Progress
-              value={proteinPercentage}
-              className='h-2'
-              color='bg-primary'
-            />
+            <Progress value={proteinPercentage} className='h-2' />
           </div>
 
           <div className='space-y-1.5'>
