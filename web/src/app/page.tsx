@@ -54,15 +54,15 @@ function LandingPage() {
           </div>
         </section>
 
-        <section id='features' className='py-24 lg:py-32'>
-          <div className='max-w-6xl mx-auto px-6 space-y-20 lg:space-y-28'>
+        <section id='features' className='py-24 lg:py-32 px-6'>
+          <div className='max-w-6xl mx-auto space-y-20 lg:space-y-28'>
             <div className='grid lg:grid-cols-2 gap-12 lg:gap-20 items-center'>
-              <div className='relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg'>
+              <div className='relative aspect-[4/3] rounded-2xl shadow-lg'>
                 <Image
                   src='https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=800&q=80'
                   alt='Bát phở bò với thịt bò tái, hành tây và rau mầm'
                   fill
-                  className='object-cover'
+                  className='object-cover rounded-2xl'
                   sizes='(max-width: 1024px) 100vw, 50vw'
                 />
               </div>
@@ -81,12 +81,12 @@ function LandingPage() {
             </div>
 
             <div className='grid lg:grid-cols-2 gap-12 lg:gap-20 items-center'>
-              <div className='relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg order-1'>
+              <div className='relative aspect-[4/3] rounded-2xl shadow-lg order-1'>
                 <Image
                   src='https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800&q=80'
                   alt='Sổ tay kế hoạch bữa ăn với danh sách thực phẩm'
                   fill
-                  className='object-cover'
+                  className='object-cover rounded-2xl'
                   sizes='(max-width: 1024px) 100vw, 50vw'
                 />
               </div>
@@ -105,12 +105,12 @@ function LandingPage() {
             </div>
 
             <div className='grid lg:grid-cols-2 gap-12 lg:gap-20 items-center'>
-              <div className='relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg'>
+              <div className='relative aspect-[4/3] rounded-2xl shadow-lg'>
                 <Image
                   src='https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80'
                   alt='Biểu đồ theo dõi cân nặng với đường xu hướng'
                   fill
-                  className='object-cover'
+                  className='object-cover rounded-2xl'
                   sizes='(max-width: 1024px) 100vw, 50vw'
                 />
               </div>
@@ -130,7 +130,7 @@ function LandingPage() {
           </div>
         </section>
 
-        <section className='relative py-24 lg:py-32 overflow-hidden'>
+        <section className='relative py-24 lg:py-32'>
           <div className='absolute inset-0'>
             <Image
               src='https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1800&q=80'
@@ -162,8 +162,8 @@ function LandingPage() {
         </section>
       </main>
 
-      <footer className='border-t border-border py-12 dark:border-border'>
-        <div className='max-w-6xl mx-auto px-6'>
+      <footer className='border-t border-border py-12 dark:border-border px-6'>
+        <div className='max-w-6xl mx-auto'>
           <div className='flex flex-col md:flex-row justify-between items-center gap-6'>
             <div className='font-bold text-xl text-primary'>EatDee</div>
             <nav className='flex gap-6'>
