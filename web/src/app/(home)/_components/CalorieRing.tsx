@@ -53,7 +53,7 @@ function CalorieRing({
           strokeDasharray={circumference}
           strokeDashoffset={offset}
           strokeLinecap='round'
-          className='transition-all duration-500 ease-out'
+          className='transition-[stroke-dashoffset] duration-500 ease-out'
         />
       </svg>
       <div className='absolute inset-0 flex flex-col items-center justify-center'>
@@ -113,7 +113,7 @@ function MacroRing({
             strokeDasharray={circumference}
             strokeDashoffset={offset}
             strokeLinecap='round'
-            className='transition-all duration-500 ease-out'
+            className='transition-[stroke-dashoffset] duration-500 ease-out'
           />
         </svg>
       </div>
