@@ -91,7 +91,7 @@ function ScheduleDashboard() {
         <div className='max-w-6xl mx-auto flex items-center justify-between'>
           <div>
             <p className='text-sm text-muted-foreground'>Today</p>
-            <h1 className='text-xl font-semibold text-foreground capitalize'>
+            <h1 className='text-xl font-semibold text-foreground capitalize font-heading'>
               {today}
             </h1>
           </div>

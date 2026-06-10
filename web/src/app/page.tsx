@@ -26,7 +26,7 @@ function LandingPage() {
             <div className='absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/30 dark:from-foreground dark:via-foreground/80 dark:to-foreground/30' />
           </div>
           <div className='relative max-w-6xl mx-auto px-6 pt-32 pb-24 min-h-screen flex flex-col justify-end'>
-            <h1 className='text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1] tracking-tight mb-6 max-w-3xl'>
+            <h1 className='text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1] tracking-tight mb-6 max-w-3xl font-heading'>
               Lên kế hoạch{' '}
               <span className=' whitespace-nowrap'>
                 <span className='text-primary'>bữa ăn</span> thông minh
@@ -68,7 +68,7 @@ function LandingPage() {
               </div>
               <div className='relative pl-6 lg:pl-10'>
                 <div className='absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-full' />
-                <h2 className='text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 leading-tight text-balance'>
+                <h2 className='text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 leading-tight text-balance font-heading'>
                   Cơ sở dữ liệu
                   <br />
                   món ăn Việt
@@ -92,7 +92,7 @@ function LandingPage() {
               </div>
               <div className='relative pl-6 lg:pl-10 order-2'>
                 <div className='absolute left-0 top-0 bottom-0 w-1 bg-accent rounded-full' />
-                <h2 className='text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 leading-tight text-wrap:balance'>
+                <h2 className='text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 leading-tight text-wrap:balance font-heading'>
                   Lập kế hoạch
                   <br />
                   bữa ăn
@@ -116,7 +116,7 @@ function LandingPage() {
               </div>
               <div className='relative pl-6 lg:pl-10'>
                 <div className='absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-full' />
-                <h2 className='text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 leading-tight text-wrap:balance'>
+                <h2 className='text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 leading-tight text-wrap:balance font-heading'>
                   Theo dõi
                   <br />
                   cân nặng
@@ -142,7 +142,7 @@ function LandingPage() {
             <div className='absolute inset-0 bg-foreground/85 dark:bg-foreground/90' />
           </div>
           <div className='relative max-w-4xl mx-auto px-6 text-center text-background'>
-            <h2 className='text-3xl lg:text-5xl font-bold mb-6 leading-tight text-wrap:balance'>
+            <h2 className='text-3xl lg:text-5xl font-bold mb-6 leading-tight text-wrap:balance font-heading'>
               Sẵn sàng bắt đầu?
             </h2>
             <p className='text-lg sm:text-xl opacity-90 mb-10 max-w-2xl mx-auto'>

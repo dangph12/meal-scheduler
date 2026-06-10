@@ -110,7 +110,9 @@ function CalorieSummary({
       </div>
 
       <div className='space-y-3'>
-        <h4 className='text-sm font-medium text-foreground'>Macros</h4>
+        <h3 className='text-sm font-medium text-foreground font-heading'>
+          Macros
+        </h3>
 
         <div className='space-y-3'>
           <div className='space-y-1.5'>
