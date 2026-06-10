@@ -53,7 +53,9 @@ function MealSection({
   return (
     <div className={cn('space-y-3', className)}>
       <div className='flex items-center justify-between'>
-        <h3 className='text-lg font-semibold text-foreground'>{title}</h3>
+        <h2 className='text-lg font-semibold text-foreground font-heading'>
+          {title}
+        </h2>
         {onAdd && (
           <Button variant='ghost' size='sm' onClick={onAdd}>
             <Plus size={16} className='mr-1' />

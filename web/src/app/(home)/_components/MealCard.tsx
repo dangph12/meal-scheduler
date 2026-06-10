@@ -29,22 +29,24 @@ function MealCard({ meal, onRemove, className }: MealCardProps) {
         className
       )}
     >
-      <div className='relative size-16 flex-shrink-0 overflow-hidden rounded-md bg-muted'>
+      <div className='relative size-16 flex-shrink-0 overflow-hidden rounded-md border border-border p-1'>
         {meal.imageUrl ? (
           <img
             src={meal.imageUrl}
             alt={meal.name}
-            className='size-full object-cover'
+            className='size-full object-cover rounded-sm'
           />
         ) : (
-          <div className='size-full flex items-center justify-center text-muted-foreground text-xs'>
+          <div className='size-full flex items-center justify-center bg-muted text-muted-foreground text-xs'>
             No img
           </div>
         )}
       </div>
 
       <div className='flex-1 min-w-0'>
-        <h4 className='font-medium text-foreground truncate'>{meal.name}</h4>
+        <h3 className='font-medium text-foreground truncate font-heading'>
+          {meal.name}
+        </h3>
         <p className='text-sm text-muted-foreground'>{meal.calories} kcal</p>
         <div className='flex gap-2 mt-1'>
           <span className='text-xs px-1.5 py-0.5 rounded bg-primary/10 text-primary'>
