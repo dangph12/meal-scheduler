@@ -41,7 +41,7 @@ function CalorieSummary({
     return (
       <div
         className={cn(
-          'bg-card rounded-lg border border-border px-4 py-3 flex items-center gap-4',
+          'bg-card rounded-lg border border-border px-4 py-3 flex items-center gap-5',
           className
         )}
       >
@@ -52,28 +52,20 @@ function CalorieSummary({
           strokeWidth={8}
         />
 
-        <div className='flex-1'>
-          <div className='flex justify-between items-baseline'>
-            <span className='text-2xl font-bold text-foreground'>
-              {consumed.toLocaleString()}
-            </span>
-            <span className='text-sm text-muted-foreground'>
-              / {goal.toLocaleString()} kcal
-            </span>
-          </div>
+        <div className='flex-1 flex flex-col justify-center'>
           {isOver ? (
-            <p className='text-sm text-destructive font-medium'>
+            <p className='text-base text-destructive font-bold'>
               {Math.abs(remaining).toLocaleString()} kcal over
             </p>
           ) : (
-            <p className='text-sm text-muted-foreground'>
-              <span className='font-semibold text-foreground'>
+            <p className='text-base text-muted-foreground'>
+              <span className='font-bold text-foreground'>
                 {remaining.toLocaleString()}
               </span>{' '}
               kcal left
             </p>
           )}
-          <div className='flex gap-3 mt-2 text-xs text-muted-foreground'>
+          <div className='flex flex-wrap gap-x-4 gap-y-1 mt-1 text-sm text-muted-foreground font-medium'>
             <span>P: {protein}g</span>
             <span>C: {carbs}g</span>
             <span>F: {fat}g</span>

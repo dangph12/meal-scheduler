@@ -57,12 +57,25 @@ function CalorieRing({
         />
       </svg>
       <div className='absolute inset-0 flex flex-col items-center justify-center'>
-        <span className='text-2xl font-bold text-foreground'>
-          {consumed.toLocaleString()}
-        </span>
-        <span className='text-sm text-muted-foreground'>
-          / {goal.toLocaleString()} kcal
-        </span>
+        {/* max-w-[70%] forces the text to stay within the safe inner area of the circle */}
+        <div className='flex flex-col items-center justify-center max-w-[70%] text-center'>
+          <span
+            className={cn(
+              'font-bold text-foreground leading-none tracking-tighter',
+              size <= 80 ? 'text-sm' : 'text-3xl'
+            )}
+          >
+            {consumed.toLocaleString()}
+          </span>
+          <span
+            className={cn(
+              'text-muted-foreground mt-0.5 leading-tight',
+              size <= 80 ? 'text-[9px]' : 'text-xs font-medium'
+            )}
+          >
+            / {goal.toLocaleString()} kcal
+          </span>
+        </div>
       </div>
     </div>
   );
