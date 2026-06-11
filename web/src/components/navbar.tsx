@@ -1,10 +1,11 @@
 'use client';
 
-import { Menu, X } from 'lucide-react';
+import { Menu, User, X } from 'lucide-react';
 import Link from 'next/link';
 import * as React from 'react';
 
 import { Button } from '@/components/ui/button';
+import { useAuthContext } from '@/context/auth';
 import { cn } from '@/lib/shadcn';
 
 const navItems = [
@@ -15,6 +16,8 @@ const navItems = [
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const { accessToken, name } = useAuthContext();
+  const isAuthenticated = !!accessToken;
 
   return (
     <header className='fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border dark:bg-background/60'>
@@ -35,16 +38,36 @@ export function Navbar() {
               {item.label}
             </Link>
           ))}
+          {isAuthenticated && (
+            <Link
+              href='/profile'
+              className='text-sm font-medium text-muted-foreground hover:text-foreground transition-colors'
+            >
+              Hồ sơ
+            </Link>
+          )}
         </nav>
 
         {/* Desktop CTA */}
         <div className='hidden md:flex items-center gap-3'>
-          <Button variant='ghost' size='sm' asChild>
-            <Link href='/login'>Đăng nhập</Link>
-          </Button>
-          <Button size='sm' asChild>
-            <Link href='/onboarding'>Bắt đầu ngay</Link>
-          </Button>
+          {isAuthenticated ? (
+            <Link
+              href='/profile'
+              className='flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors'
+            >
+              <User size={18} />
+              <span>{name ?? 'Hồ sơ'}</span>
+            </Link>
+          ) : (
+            <>
+              <Button variant='ghost' size='sm' asChild>
+                <Link href='/login'>Đăng nhập</Link>
+              </Button>
+              <Button size='sm' asChild>
+                <Link href='/onboarding'>Bắt đầu ngay</Link>
+              </Button>
+            </>
+          )}
         </div>
 
         {/* Mobile hamburger */}
@@ -83,24 +106,50 @@ export function Navbar() {
                       {item.label}
                     </Link>
                   ))}
+                  {isAuthenticated && (
+                    <Link
+                      href='/profile'
+                      onClick={() => setMobileOpen(false)}
+                      className='px-4 py-2.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors'
+                    >
+                      Hồ sơ
+                    </Link>
+                  )}
                   <div className='border-t mt-2 pt-2 px-3 flex flex-col gap-2'>
-                    <Button
-                      variant='outline'
-                      size='sm'
-                      className='w-full justify-center'
-                      asChild
-                      onClick={() => setMobileOpen(false)}
-                    >
-                      <Link href='/login'>Đăng nhập</Link>
-                    </Button>
-                    <Button
-                      size='sm'
-                      className='w-full justify-center'
-                      asChild
-                      onClick={() => setMobileOpen(false)}
-                    >
-                      <Link href='/onboarding'>Bắt đầu ngay</Link>
-                    </Button>
+                    {isAuthenticated ? (
+                      <Button
+                        variant='outline'
+                        size='sm'
+                        className='w-full justify-center'
+                        asChild
+                        onClick={() => setMobileOpen(false)}
+                      >
+                        <Link href='/profile'>
+                          <User size={16} className='mr-2' />
+                          {name ?? 'Hồ sơ'}
+                        </Link>
+                      </Button>
+                    ) : (
+                      <>
+                        <Button
+                          variant='outline'
+                          size='sm'
+                          className='w-full justify-center'
+                          asChild
+                          onClick={() => setMobileOpen(false)}
+                        >
+                          <Link href='/login'>Đăng nhập</Link>
+                        </Button>
+                        <Button
+                          size='sm'
+                          className='w-full justify-center'
+                          asChild
+                          onClick={() => setMobileOpen(false)}
+                        >
+                          <Link href='/onboarding'>Bắt đầu ngay</Link>
+                        </Button>
+                      </>
+                    )}
                   </div>
                 </nav>
               </div>
