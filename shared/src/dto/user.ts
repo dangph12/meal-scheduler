@@ -102,6 +102,51 @@ export interface PreviewCaloriesIntakeResponse {
   suggestedCaloriesIntake: number;
 }
 
+export interface WeightEntry {
+  id: string;
+  date: string;
+  weightKg: number;
+}
+
+export interface WeightHistoryResponse {
+  data: WeightEntry[];
+  total: number;
+  page: number;
+  pageSize: number;
+}
+
+export interface AvatarUploadResponse {
+  avatarUrl: string;
+}
+
+export interface UserProfileResponse {
+  name: string;
+  email: string;
+  avatarUrl: string | null;
+  sex: string;
+  dob: string;
+  heightCm: number;
+  weightKg: number;
+  activityLevel: string;
+  exerciseFrequency: string;
+  targetWeightKg: number;
+  rateOfChangeKgPerWeek: string;
+  diet: string;
+  proteinIntakeGPerKg: string;
+  caloriesIntake: number;
+}
+
+export interface CalorieDayEntry {
+  date: string;
+  consumedKcal: number;
+  targetKcal: number;
+}
+
+export interface CalorieHistoryResponse {
+  data: CalorieDayEntry[];
+  total: number;
+}
+
 const calculateAge = (dob: string): number => {
   const birthDate = new Date(dob);
   const today = new Date();
