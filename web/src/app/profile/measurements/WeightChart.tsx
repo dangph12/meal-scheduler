@@ -122,6 +122,7 @@ function WeightChart({ data, targetWeightKg, loading }: WeightChartProps) {
             {RANGES.map(r => (
               <button
                 key={r.key}
+                type='button'
                 onClick={() => setRange(r.key)}
                 className={cn(
                   'px-2 py-1 text-xs rounded-md transition-colors',

@@ -24,27 +24,12 @@ import {
 } from '@/components/ui/select';
 import { api, ApiError } from '@/lib/api';
 
+import { defaultProfile } from '../_constants/defaultProfile';
+
 interface ActivitySectionProps {
   profile?: UserProfileResponse;
   onProfileUpdate?: (profile: UserProfileResponse) => void;
 }
-
-const defaultProfile: UserProfileResponse = {
-  name: '',
-  email: '',
-  avatarUrl: null,
-  sex: 'MALE',
-  dob: '',
-  heightCm: 0,
-  weightKg: 0,
-  activityLevel: '1',
-  exerciseFrequency: '1',
-  targetWeightKg: 0,
-  rateOfChangeKgPerWeek: '0.5',
-  diet: 'BALANCED',
-  proteinIntakeGPerKg: '1.2',
-  caloriesIntake: 0
-};
 
 function ActivitySection({
   profile = defaultProfile,

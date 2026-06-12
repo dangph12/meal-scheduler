@@ -21,7 +21,10 @@ function ProfileNav() {
       {/* Nav Links */}
       <ul className='space-y-1'>
         {navItems.map(item => {
-          const isActive = pathname === item.href;
+          const isActive =
+            item.href === '/profile'
+              ? pathname === '/profile'
+              : pathname === item.href || pathname.startsWith(`${item.href}/`);
           const Icon = item.icon;
           return (
             <li key={item.href}>

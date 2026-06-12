@@ -37,14 +37,12 @@ function CaloriesChart({ data, targetKcal, loading }: CaloriesChartProps) {
   const [days, setDays] = useState<number>(7);
 
   const chartData = useMemo(() => {
-    const cutoff = subDays(new Date(), days);
-    const recent = data.filter(d => new Date(d.date) >= cutoff);
-
+    const dataByDate = new Map(data.map(d => [d.date, d]));
     const dateMap = new Map<string, CalorieDataPoint>();
     for (let i = days - 1; i >= 0; i--) {
       const d = subDays(new Date(), i);
       const key = format(d, 'yyyy-MM-dd');
-      const existing = data.find(e => e.date === key);
+      const existing = dataByDate.get(key);
       dateMap.set(key, {
         date: key,
         consumedKcal: existing?.consumedKcal ?? 0,

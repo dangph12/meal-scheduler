@@ -123,16 +123,16 @@ export interface UserProfileResponse {
   name: string;
   email: string;
   avatarUrl: string | null;
-  sex: string;
+  sex: Sex;
   dob: string;
   heightCm: number;
   weightKg: number;
-  activityLevel: string;
-  exerciseFrequency: string;
+  activityLevel: ActivityLevel;
+  exerciseFrequency: ExerciseFrequency;
   targetWeightKg: number;
-  rateOfChangeKgPerWeek: string;
-  diet: string;
-  proteinIntakeGPerKg: string;
+  rateOfChangeKgPerWeek: RateOfChangeKgPerWeek;
+  diet: Diet;
+  proteinIntakeGPerKg: ProteinIntakeGPerKg;
   caloriesIntake: number;
 }
 

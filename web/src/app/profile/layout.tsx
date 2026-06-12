@@ -36,11 +36,11 @@ export default function ProfileLayout({
             {/* Avatar - always visible */}
             <div className='flex items-center gap-3 mb-6 px-2'>
               <div className='size-12 rounded-full flex items-center justify-center text-sm font-bold text-primary-foreground select-none overflow-hidden shrink-0 bg-primary'>
-                {getInitials(name ?? '?')}
+                {getInitials(name?.trim() ? name : '?')}
               </div>
               <div className='min-w-0'>
                 <p className='font-semibold text-foreground truncate'>
-                  {name ?? 'Người dùng'}
+                  {name?.trim() ? name : 'Người dùng'}
                 </p>
                 <p className='text-xs text-muted-foreground'>
                   Tài khoản cá nhân

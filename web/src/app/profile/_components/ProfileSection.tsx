@@ -5,7 +5,7 @@ import type { UserProfileResponse } from '@app/shared/dto/user';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
 import { Calendar, Camera, Save } from 'lucide-react';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -28,6 +28,8 @@ import {
 import { api, ApiError } from '@/lib/api';
 import { cn } from '@/lib/shadcn';
 
+import { defaultProfile } from '../_constants/defaultProfile';
+
 interface ProfileSectionProps {
   profile?: UserProfileResponse;
   onProfileUpdate?: (profile: UserProfileResponse) => void;
@@ -43,23 +45,6 @@ function getInitials(name: string): string {
     .toUpperCase();
 }
 
-const defaultProfile: UserProfileResponse = {
-  name: '',
-  email: '',
-  avatarUrl: null,
-  sex: 'MALE',
-  dob: '',
-  heightCm: 0,
-  weightKg: 0,
-  activityLevel: '1',
-  exerciseFrequency: '1',
-  targetWeightKg: 0,
-  rateOfChangeKgPerWeek: '0.5',
-  diet: 'BALANCED',
-  proteinIntakeGPerKg: '1.2',
-  caloriesIntake: 0
-};
-
 function ProfileSection({
   profile = defaultProfile,
   onProfileUpdate = () => {}
@@ -67,6 +52,10 @@ function ProfileSection({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [avatarUrl, setAvatarUrl] = useState(profile.avatarUrl);
   const [uploading, setUploading] = useState(false);
+
+  useEffect(() => {
+    setAvatarUrl(profile.avatarUrl);
+  }, [profile.avatarUrl]);
 
   const {
     register,
@@ -100,6 +89,7 @@ function ProfileSection({
       if (res?.avatarUrl) {
         setAvatarUrl(res.avatarUrl);
         toast.success('Đã cập nhật ảnh đại diện');
+        onProfileUpdate({ ...profile, avatarUrl: res.avatarUrl });
       }
     } catch (error) {
       let message = 'Không thể tải ảnh lên';

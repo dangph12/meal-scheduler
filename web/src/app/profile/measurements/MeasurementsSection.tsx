@@ -6,6 +6,7 @@ import {
 } from '@app/shared/constant/rate-of-change-kg-per-week';
 import type { UserProfileResponse } from '@app/shared/dto/user';
 import { Save } from 'lucide-react';
+import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -15,6 +16,7 @@ import { Input } from '@/components/ui/input';
 import { RadioList } from '@/components/ui/radio-list';
 import { api, ApiError } from '@/lib/api';
 
+import { defaultProfile } from '../_constants/defaultProfile';
 import { WeightChart } from './WeightChart';
 
 interface MeasurementsSectionProps {
@@ -22,23 +24,6 @@ interface MeasurementsSectionProps {
   weightHistory?: { date: string; weightKg: number }[];
   onProfileUpdate?: (profile: UserProfileResponse) => void;
 }
-
-const defaultProfile: UserProfileResponse = {
-  name: '',
-  email: '',
-  avatarUrl: null,
-  sex: 'MALE',
-  dob: '',
-  heightCm: 0,
-  weightKg: 0,
-  activityLevel: '1',
-  exerciseFrequency: '1',
-  targetWeightKg: 0,
-  rateOfChangeKgPerWeek: '0.5',
-  diet: 'BALANCED',
-  proteinIntakeGPerKg: '1.2',
-  caloriesIntake: 0
-};
 
 function MeasurementsSection({
   profile = defaultProfile,
@@ -67,9 +52,18 @@ function MeasurementsSection({
   const rate = watch('rateOfChangeKgPerWeek');
 
   const isTargetSameAsCurrent =
-    !!currentWeight &&
+    currentWeight !== undefined &&
     targetWeight !== undefined &&
     Math.abs(targetWeight - currentWeight) < 0.01;
+
+  useEffect(() => {
+    if (isTargetSameAsCurrent && rate !== RateOfChangeKgPerWeek.Zero) {
+      setValue('rateOfChangeKgPerWeek', RateOfChangeKgPerWeek.Zero);
+    }
+    if (!isTargetSameAsCurrent && rate === RateOfChangeKgPerWeek.Zero) {
+      setValue('rateOfChangeKgPerWeek', RateOfChangeKgPerWeek.Half);
+    }
+  }, [isTargetSameAsCurrent, rate, setValue]);
 
   const onSubmit = async (data: {
     heightCm: number;
