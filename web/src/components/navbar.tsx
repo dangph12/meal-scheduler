@@ -20,7 +20,10 @@ export function Navbar() {
   const isAuthenticated = !!accessToken;
 
   return (
-    <header className='fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border dark:bg-background/60'>
+    <header
+      className='fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border dark:bg-background/60'
+      style={{ paddingRight: 'var(--removed-body-scroll-bar-size, 0px)' }}
+    >
       <div className='max-w-6xl mx-auto px-6 py-4 flex items-center justify-between'>
         {/* Logo */}
         <Link href='/' className='font-bold text-2xl text-primary'>
@@ -126,7 +129,7 @@ export function Navbar() {
                       >
                         <Link href='/profile'>
                           <User size={16} className='mr-2' />
-                          {name ?? 'Hồ sơ'}
+                          {name || 'Hồ sơ'}
                         </Link>
                       </Button>
                     ) : (
