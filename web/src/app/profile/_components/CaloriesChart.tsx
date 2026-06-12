@@ -56,7 +56,7 @@ function CaloriesChart({ data, targetKcal, loading }: CaloriesChartProps) {
   }, [data, days, targetKcal]);
 
   return (
-    <div className='bg-card rounded-lg border border-border p-4 space-y-3'>
+    <div className='space-y-3 pt-4 border-t'>
       <div className='flex items-center justify-between'>
         <h3 className='text-sm font-medium text-foreground font-heading'>
           Calo nạp vào
