@@ -2,14 +2,12 @@
 
 import { Sex, SexOptions } from '@app/shared/constant/sex';
 import type { UserProfileResponse } from '@app/shared/dto/user';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
 import { Calendar, Camera, Save } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import { z } from 'zod';
 
 import { Button } from '@/components/ui/button';
 import { Calendar as CalendarComponent } from '@/components/ui/calendar';
@@ -29,22 +27,6 @@ import {
 } from '@/components/ui/select';
 import { api, ApiError } from '@/lib/api';
 import { cn } from '@/lib/shadcn';
-
-const profileSchema = z.object({
-  name: z
-    .string()
-    .min(1, 'Tên là bắt buộc')
-    .min(2, 'Tên phải có ít nhất 2 ký tự')
-    .max(50, 'Tên không được vượt quá 50 ký tự'),
-  sex: z.enum(Sex, 'Giới tính là bắt buộc'),
-  dob: z
-    .string()
-    .min(1, 'Ngày sinh là bắt buộc')
-    .refine(val => !isNaN(Date.parse(val)), 'Ngày sinh không hợp lệ')
-    .refine(val => new Date(val) < new Date(), 'Ngày sinh phải trong quá khứ')
-});
-
-type ProfileFormData = z.infer<typeof profileSchema>;
 
 interface ProfileSectionProps {
   profile?: UserProfileResponse;
@@ -91,8 +73,7 @@ function ProfileSection({
     control,
     handleSubmit,
     formState: { errors, isSubmitting }
-  } = useForm<ProfileFormData>({
-    resolver: zodResolver(profileSchema),
+  } = useForm({
     mode: 'onBlur',
     defaultValues: {
       name: profile.name,
@@ -134,7 +115,7 @@ function ProfileSection({
     }
   };
 
-  const onSubmit = async (data: ProfileFormData) => {
+  const onSubmit = async (data: { name: string; sex: Sex; dob: string }) => {
     try {
       const res = await api.put<UserProfileResponse>('/v1/users/profile', data);
       toast.success('Đã cập nhật hồ sơ');

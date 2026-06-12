@@ -9,11 +9,9 @@ import {
   ExerciseFrequencyOptions
 } from '@app/shared/constant/exercise-frequency';
 import type { UserProfileResponse } from '@app/shared/dto/user';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { Save } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import { z } from 'zod';
 
 import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
@@ -25,13 +23,6 @@ import {
   SelectValue
 } from '@/components/ui/select';
 import { api, ApiError } from '@/lib/api';
-
-const activitySchema = z.object({
-  activityLevel: z.enum(ActivityLevel, 'Mức độ hoạt động là bắt buộc'),
-  exerciseFrequency: z.enum(ExerciseFrequency, 'Tần suất tập luyện là bắt buộc')
-});
-
-type ActivityFormData = z.infer<typeof activitySchema>;
 
 interface ActivitySectionProps {
   profile?: UserProfileResponse;
@@ -63,8 +54,7 @@ function ActivitySection({
     control,
     handleSubmit,
     formState: { errors, isSubmitting }
-  } = useForm<ActivityFormData>({
-    resolver: zodResolver(activitySchema),
+  } = useForm({
     mode: 'onBlur',
     defaultValues: {
       activityLevel: profile.activityLevel as unknown as ActivityLevel,
@@ -73,7 +63,10 @@ function ActivitySection({
     }
   });
 
-  const onSubmit = async (data: ActivityFormData) => {
+  const onSubmit = async (data: {
+    activityLevel: ActivityLevel;
+    exerciseFrequency: ExerciseFrequency;
+  }) => {
     try {
       const res = await api.put<UserProfileResponse>('/v1/users/profile', data);
       toast.success('Đã cập nhật thông tin hoạt động');

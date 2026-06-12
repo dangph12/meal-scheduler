@@ -1,4 +1,4 @@
-import { MeasurementsSection } from '../_components/MeasurementsSection';
+import { MeasurementsSection } from './MeasurementsSection';
 
 export default function MeasurementsPage() {
   return <MeasurementsSection />;

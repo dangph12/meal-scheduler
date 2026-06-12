@@ -5,11 +5,9 @@ import {
   RateOfChangeKgPerWeekOptions
 } from '@app/shared/constant/rate-of-change-kg-per-week';
 import type { UserProfileResponse } from '@app/shared/dto/user';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { Save } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import { z } from 'zod';
 
 import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
@@ -18,27 +16,6 @@ import { RadioList } from '@/components/ui/radio-list';
 import { api, ApiError } from '@/lib/api';
 
 import { WeightChart } from './WeightChart';
-
-const measurementsSchema = z.object({
-  heightCm: z
-    .number('Chiều cao là bắt buộc')
-    .min(130, 'Chiều cao phải từ 130 cm trở lên')
-    .max(250, 'Chiều cao phải từ 250 cm trở xuống'),
-  weightKg: z
-    .number('Cân nặng là bắt buộc')
-    .min(30, 'Cân nặng phải từ 30 kg trở lên')
-    .max(250, 'Cân nặng phải từ 250 kg trở xuống'),
-  targetWeightKg: z
-    .number('Cân nặng mục tiêu là bắt buộc')
-    .min(30, 'Cân nặng mục tiêu phải từ 30 kg trở lên')
-    .max(250, 'Cân nặng mục tiêu phải từ 250 kg trở xuống'),
-  rateOfChangeKgPerWeek: z.enum(
-    RateOfChangeKgPerWeek,
-    'Tốc độ thay đổi cân nặng là bắt buộc'
-  )
-});
-
-type MeasurementsFormData = z.infer<typeof measurementsSchema>;
 
 interface MeasurementsSectionProps {
   profile?: UserProfileResponse;
@@ -74,8 +51,7 @@ function MeasurementsSection({
     setValue,
     handleSubmit,
     formState: { errors, isSubmitting }
-  } = useForm<MeasurementsFormData>({
-    resolver: zodResolver(measurementsSchema),
+  } = useForm({
     mode: 'onBlur',
     defaultValues: {
       heightCm: profile.heightCm,
@@ -95,7 +71,12 @@ function MeasurementsSection({
     targetWeight !== undefined &&
     Math.abs(targetWeight - currentWeight) < 0.01;
 
-  const onSubmit = async (data: MeasurementsFormData) => {
+  const onSubmit = async (data: {
+    heightCm: number;
+    weightKg: number;
+    targetWeightKg: number;
+    rateOfChangeKgPerWeek: RateOfChangeKgPerWeek;
+  }) => {
     try {
       const res = await api.put<UserProfileResponse>('/v1/users/profile', data);
       toast.success('Đã cập nhật chỉ số');

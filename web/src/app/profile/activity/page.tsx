@@ -1,4 +1,4 @@
-import { ActivitySection } from '../_components/ActivitySection';
+import { ActivitySection } from './ActivitySection';
 
 export default function ActivityPage() {
   return <ActivitySection />;

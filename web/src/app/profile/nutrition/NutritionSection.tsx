@@ -6,11 +6,9 @@ import {
   ProteinIntakeGPerKgOptions
 } from '@app/shared/constant/protein-intake-g-per-kg';
 import type { UserProfileResponse } from '@app/shared/dto/user';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { Save } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import { z } from 'zod';
 
 import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
@@ -25,17 +23,6 @@ import {
 import { api, ApiError } from '@/lib/api';
 
 import { CaloriesChart } from './CaloriesChart';
-
-const nutritionSchema = z.object({
-  diet: z.enum(Diet, 'Chế độ ăn là bắt buộc'),
-  proteinIntakeGPerKg: z.enum(
-    ProteinIntakeGPerKg,
-    'Mức độ nạp protein là bắt buộc'
-  ),
-  caloriesIntake: z.number('Lượng calo mục tiêu là bắt buộc')
-});
-
-type NutritionFormData = z.infer<typeof nutritionSchema>;
 
 interface NutritionSectionProps {
   profile?: UserProfileResponse;
@@ -69,8 +56,7 @@ function NutritionSection({
     control,
     handleSubmit,
     formState: { errors, isSubmitting }
-  } = useForm<NutritionFormData>({
-    resolver: zodResolver(nutritionSchema),
+  } = useForm({
     mode: 'onBlur',
     defaultValues: {
       diet: profile.diet as unknown as Diet,
@@ -80,7 +66,11 @@ function NutritionSection({
     }
   });
 
-  const onSubmit = async (data: NutritionFormData) => {
+  const onSubmit = async (data: {
+    diet: Diet;
+    proteinIntakeGPerKg: ProteinIntakeGPerKg;
+    caloriesIntake: number;
+  }) => {
     try {
       const res = await api.put<UserProfileResponse>('/v1/users/profile', data);
       toast.success('Đã cập nhật thông tin dinh dưỡng');

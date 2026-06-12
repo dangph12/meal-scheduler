@@ -28,7 +28,7 @@ export default function ProfileLayout({
   const { name } = useAuthContext();
 
   return (
-    <div className='min-h-screen bg-background pt-20'>
+    <div className='min-h-screen bg-background'>
       <div className='max-w-6xl mx-auto px-4 py-8'>
         <div className='lg:grid lg:grid-cols-[280px_1fr] lg:gap-10'>
           {/* Sidebar */}
